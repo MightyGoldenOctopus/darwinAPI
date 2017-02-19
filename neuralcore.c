@@ -11,12 +11,12 @@
  *       Compiler:  gcc
  *
  *         Author:  J.A Ducastaing (ducast_j), jean-adrien.ducastaing@epita.fr
- *        Company:  EPITA (becoming property of ZaphTech S.A.S on summer 2017)
+ *        Company:  none
  *
  * =====================================================================================
  */
 
-#include <neuralcore.h> //FIXME
+#include "neuralcore.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -355,7 +355,7 @@ int getInputsNb() {
 	return neurons_array->inputsPerNeuron
 }
 
-int gerNeuronsNb() {
+int getNeuronsNb() {
 	return neurons_array->neurons;
 }
 
