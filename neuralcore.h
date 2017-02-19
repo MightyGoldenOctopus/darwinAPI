@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
 
 #ifndef NEURALCORE_H
 #define NEURALCORE_H
@@ -39,24 +40,24 @@ typedef struct
          double* biasweightsList;
          int* isinput;
          int* isoutput;
- } neurons_array;
+ } Network;
 
-void updateSecondaryMetrics();
-void initialize(int inputNb);
-void addNeuron();
-double output(double x);
-double derivative(double x);
-double neuronOutput(size_t id);
-double setInputs(size_t id, double inputs[]);
-void adjustWeights(size_t id, size_t layerstartid, size_t outputstartid, size_t output_nb, double result);
-void neuronLinking(size_t id);
-void addLink(size_t id1, size_t id2);
-void saveNetwork(char saveName[]);
-void loadNetwork(char saveName[]);
-int isInput(size_t id);
-int isOutput(size_t id);
-void setInputStat(size_t id, int param);
-void setOutputStat(size_t id, int param);
-int getInputsNb();
-int getNeuronsNb();
+void updateSecondaryMetrics(Network* neurons_array);
+void initialize(int inputNb, Network* neurons_array);
+void addNeuron(Network* neurons_array);
+double output(double x, Network* neurons_array);
+double derivative(double x, Network* neurons_array);
+double neuronOutput(size_t id, Network* neurons_array);
+double setInputs(size_t id, double inputs[], Network* neurons_array);
+void adjustWeights(size_t id, size_t layerstartid, size_t outputstartid, size_t output_nb, double result, Network* neurons_array);
+void neuronLinking(size_t id, Network* neurons_array);
+void addLink(size_t id1, size_t id2, Network* neurons_array);
+void saveNetwork(char saveName[], Network* neurons_array);
+void loadNetwork(char saveName[], Network* neurons_array);
+int isInput(size_t id, Network* neurons_array);
+int isOutput(size_t id, Network* neurons_array);
+void setInputStat(size_t id, int param, Network* neurons_array);
+void setOutputStat(size_t id, int param, Network* neurons_array);
+int getInputsNb(Network* neurons_array);
+int getNeuronsNb(Network* neurons_array);
 #endif
