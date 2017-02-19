@@ -17,10 +17,7 @@
  */
 
 #include "neuralcore.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h> //Don't forget the -lm in gcc compile command!
+ //Don't forget the -lm in gcc compile command!
 
 //DO NOT USE DIRECTLY THIS CODE
 //YOU MUST USE AN IDIOT-PROOF NEURAL INTERFACE (no offense)
@@ -36,33 +33,13 @@
 
 //NOTE: NEURON WEIGHTS AND ERROR SEQUENCE MAY CHANGE ACCORDING THE NETWORK ARCHITECTURE
 
-//Neuron Structure Declaration
-struct neurons {
-	//Neurons primary  metrics
-	int inputsPerNeuron;	//Maximum inputs number per neuron
-	int neurons = 0;
-	//Numbers of elements (secondary metrics)
-	size_t inputs; 		// = neurons * inputsPerNeuron
-	size_t weights;		// = inputs
-	size_t errors;		// = neurons
-	size_t biasweights;	// = neurons
-	//Pointers to properties lists
-	double* inputsList;
-	double* weightsList;
-	size_t* linksList;	//Used for custom neurons linking (list of others neurons' IDs)
-	double* errorsList;
-	double* biasweightsList;
-	int* isinput;
-	int* isoutput;
-} neurons_array;
-
 //FAILURE TO INITIALIZE THE NEURONS ARRAY BEFORE USING ANY FUNCTION
 //MAY RESULT IN EPIC FAIL (Well, sorry for the rocket-science-ish look of all that...)
 
 void updateSecondaryMetrics() {
 	//Getting primary metrics
-	int inputs = neurons_array -> inputsPerNeuron;
-	int neurons = neurons_array -> neurons;
+	int inputs = neurons_array->inputsPerNeuron;
+	int neurons = neurons_array->neurons;
 	//Updating secondary metrics
 	neurons_array->inputs 		= (size_t) (inputs * neurons);
 	neurons_array->weights 		= (size_t) (inputs * neurons);
@@ -73,6 +50,7 @@ void updateSecondaryMetrics() {
 //Neurons array initialization function
 //TypeCasting inputs malloc (RIP coding style) and initializing properties value of a first neuron
 void initialize(int inputsNb) {
+	neurons_array->neurons = 0;
 	//Initializing inputs array
 	neurons_array->inputsList 	= (double*) malloc((size_t)inputsNb * sizeof(double));
 	//Initializing weights and secondary properties

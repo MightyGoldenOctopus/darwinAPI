@@ -16,8 +16,31 @@
  * =====================================================================================
  */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+
 #ifndef NEURALCORE_H
 #define NEURALCORE_H
+
+typedef struct
+{
+	 int inputsPerNeuron;
+         int neurons;
+         size_t inputs;
+         size_t weights;
+         size_t errors;
+         size_t biasweights;
+         double* inputsList;
+         double* weightsList;
+         size_t* linksList;
+         double* errorsList;
+         double* biasweightsList;
+         int* isinput;
+         int* isoutput;
+ } neurons_array;
+
 void updateSecondaryMetrics();
 void initialize(int inputNb);
 void addNeuron();
