@@ -45,10 +45,10 @@ typedef struct
 void updateSecondaryMetrics(Network* neurons_array);
 void initialize(int inputNb, Network* neurons_array);
 void addNeuron(Network* neurons_array);
-double output(double x, Network* neurons_array);
-double derivative(double x, Network* neurons_array);
+double output(double x);
+double derivative(double x);
 double neuronOutput(size_t id, Network* neurons_array);
-double setInputs(size_t id, double inputs[], Network* neurons_array);
+void setInputs(size_t id, double inputs[], Network* neurons_array);
 void adjustWeights(size_t id, size_t layerstartid, size_t outputstartid, size_t output_nb, double result, Network* neurons_array);
 void neuronLinking(size_t id, Network* neurons_array);
 void addLink(size_t id1, size_t id2, Network* neurons_array);
