@@ -16,8 +16,8 @@
  * =====================================================================================
  */
 
-#include <neuralcore.h>
-#include <neuralinterface.h> //FIXME
+#include "neuralcore.h"
+#include "neuralinterface.h" //FIXME
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -34,44 +34,48 @@ void createFFB(char name[], int neuronsLayer[], int inputs) {
 	int layers = sizeof(neuronsLayer)/sizeof(int);
 	//Generating input layer
 	//NOTE: The first neuron is created in initialization
-	initialize(inputs);
-	setInputStat(0, 1);
+	Network neurons_array;
+	initialize(inputs, neurons_array);
+	setInputStat(0, 1, neurons_array);
 	for(int i = 1; i < neuronsLayer[0], i++) {
-		addNeuron();
-		setInputStat(i, 1);
+		addNeuron(neurons_array);
+		setInputStat(i, 1, neurons_array);
 	}
 	//Generating hidden layers
-	size_t currentid = (size_t) (neuronsLayer[0] - 1); //FIXME
+	size_t currentid = (size_t) (neuronsLayer[0] - 1); //OK
+	size_t lowerLayer = 0;
 	for(int j == 1; j < layers - 2; j++) {
 		for(int k = 0; k < neuronsLayer[j]; k++) {
 			currentid++;
-			addNeuron();
+			addNeuron(neurons_array);
 			//Generating neuron linking
-			for(int l = 0; l < neuronsLayer[j-1]; l++) { //FIXME
-				addLink(l , currentid);
+			for(int l = lowerLayer; l < lowerLayer + neuronsLayer[j-1]; l++) {
+				addLink(l , currentid, neurons_array);
 			}
-		}	
+		}
+		lowerLayer += neuronsLayer[j];	
 	}
 	//Generating output layer
 	for(int m = 0; m < neuronsLayer[layers-1]) {
-		addNeuron();
-		setOutputStat(currentid+m+1, 1);
+		addNeuron(neurons_array);
+		setOutputStat(currentid+m+1, 1, neurons_array);
 		for(int n = 0; n < neuronsLayer[layers-2]; n++) {
-			addLink(n, currentid+m+1);
+			addLink(n, currentid+m+1, neurons_array);
 		}
 	}
 	//Saving network
-	saveNetwork(name);
+	saveNetwork(name, neurons_array);
 	printf("Network successfully created!");
 }
 
 //inputs must be a matrix of size inputsPerNeuron*neuronsLayer[0]
 void trainFFB(char name[], int neuronsLayer[], double inputs[][], double results[]) { //FIXME
 	//Loading network
-	loadNetwork(name);
+	Network neurons_array;
+	loadNetwork(name, neurons_array);
 	int epoch = 0;
 	//Getting network's metrics
-	int inputsPerNeuron = getInputsNb();
+	int inputsPerNeuron = getInputsNb(neurons_array);
 	int layers = sizeof(neuronsLayer)/sizeof(int);
 	//Calculating output layer start id
 	size_t outputstartid = 0
@@ -81,9 +85,9 @@ void trainFFB(char name[], int neuronsLayer[], double inputs[][], double results
 	//epoch must be comprised between 10K & 100K to be effective
 	while(epoch < 50000) {
 		epoch++;
-		//Set inputs layer inputs
+		//Set input layer inputs
 		for(int i = 0; i < neuronsLayer[0] - i) {
-			setInputs(i, results[i]);
+			setInputs(i, inputs[i][], neurons_array);
 		}
 		//Neuron output function got a built-in linking function
 		//Thus when you plot a neuron's output, all preceding neurons
@@ -96,13 +100,13 @@ void trainFFB(char name[], int neuronsLayer[], double inputs[][], double results
 		//in the adjustweight function, enjoy the ride.
 		//Parameters sets to 0 are irrelevant in present cases
 		for(int i = 0; i < neuronsLayer[layers-1]; i++) {
-			adjustWeights(outputstartid+i, 0, 0, result[i]); //FIXME
+			adjustWeights(outputstartid+i, 0, 0, result[i], neurons_array); //OK
 		}
 		//Adjusting weights for hiddens layers
-		size_t layerStartId = neuronsLayer[0]; //FIXME
+		size_t layerStartId = neuronsLayer[0]; //OK
 		for(int i = 1, i < layers-2; i++) {
 			for(int j = 0; j < neuronsLayer[i]-1; j++) {
-				adjustWeights(layerStartId+j, layerStartId, outputstartid, 0.0);
+				adjustWeights(layerStartId+j, layerStartId, outputstartid, 0.0, neurons_array);
 			}
 			layerStartId += neuronsLayer[i];
 		}
@@ -113,10 +117,11 @@ void trainFFB(char name[], int neuronsLayer[], double inputs[][], double results
 }
 
 double* computeFFB(char name[], size_t outputLayerStart, int outputs) {
-	loadNetwork(name);
+	Network neurons_array;
+	loadNetwork(name, neurons_array);
 	double* results = malloc(sizeof(double) * outputs);
 	for(int i = outputLayerStart; i < outputs - 1; i++) {
-		results + i = neuronOutput(i);
+		results + i = neuronOutput(i, neurons_array);
 	}
 	return results;
 }
