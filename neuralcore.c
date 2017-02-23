@@ -17,8 +17,6 @@
  */
 #include "neuralcore.h"
 //Don't forget the -lm at the end of cflags!
-//Initializing random seed
-srand(time(NULL));
 
 void updateSecondaryMetrics(Network* neurons_array) {
 	//Getting primary metrics
@@ -36,20 +34,16 @@ void updateSecondaryMetrics(Network* neurons_array) {
 void initialize(int inputsNb, Network* neurons_array) {
 	neurons_array->neurons = 0;
 	//Initializing inputs array
-	neurons_array->inputsList 	= malloc((size_t)inputsNb\ 
-					* sizeof(double));
+	neurons_array->inputsList 	= malloc((size_t)inputsNb * sizeof(double));
 	//Initializing weights and secondary properties
-	neurons_array->weightsList 	= malloc((size_t)inputsNb\ 
-					* sizeof(double));
-	neurons_array->linksList 	= malloc((size_t)inputsNb\ 
-					* sizeof(size_t));
+	neurons_array->weightsList 	= malloc((size_t)inputsNb * sizeof(double));
+	neurons_array->linksList 	= malloc((size_t)inputsNb * sizeof(size_t));
 	neurons_array->errorsList 	= malloc(sizeof(double));
 	neurons_array->biasweightsList 	= malloc(sizeof(double));
 	neurons_array->isinput 		= malloc(sizeof(int));	
 	neurons_array->isoutput 	= malloc(sizeof(int));
 	for(int i = 0; i < inputsNb; i++) {
-		*(neurons_array->weightsList + i) = (double)rand()\ 
-						  / (double)RAND_MAX;
+		*(neurons_array->weightsList + i) = (double)rand() / (double)RAND_MAX;
 		*(neurons_array->linksList + i) = 9000;
 		//This is an initialization value
 	}
@@ -72,31 +66,19 @@ void addNeuron(Network* neurons_array) {
 	int neurons = neurons_array->neurons;
 	int inputs = neurons_array->inputsPerNeuron;
 	//Reallocating dynamic memory
-	neurons_array->inputsList 	= realloc(neurons_array->inputsList,\ 
-					(size_t) (neurons * inputs)\ 
-					* sizeof(double));
-	neurons_array->weightsList 	= realloc(neurons_array->weightsList,\ 
-					(size_t) (neurons * inputs)\ 
-					* sizeof(double));
-	neurons_array->linksList 	= realloc(neurons_array->linksList,\ 
-					(size_t) (neurons * inputs)\ 
-					* sizeof(size_t));
-	neurons_array->errorsList	= realloc(neurons_array->errorsList,\ 
-					(size_t) neurons * sizeof(double));
-	neurons_array->biasweightsList	= realloc(neurons_array->biasweightsLis\
-					t, (size_t) neurons * sizeof(double));
-	neurons_array->isinput 		= realloc(neurons_array->isinput,\ 
-					(size_t) neurons * sizeof(int));
-	neurons_array->isoutput 	= realloc(neurons_array->isoutput,\ 
-					(size_t) neurons * sizeof(int));
+	neurons_array->inputsList 	= realloc(neurons_array->inputsList,(size_t) (neurons * inputs) * sizeof(double));
+	neurons_array->weightsList 	= realloc(neurons_array->weightsList,(size_t) (neurons * inputs) * sizeof(double));
+	neurons_array->linksList 	= realloc(neurons_array->linksList,(size_t) (neurons * inputs)* sizeof(size_t));
+	neurons_array->errorsList	= realloc(neurons_array->errorsList,(size_t) neurons * sizeof(double));
+	neurons_array->biasweightsList	= realloc(neurons_array->biasweightsList, (size_t) neurons * sizeof(double));
+	neurons_array->isinput 		= realloc(neurons_array->isinput,(size_t) neurons * sizeof(int));
+	neurons_array->isoutput 	= realloc(neurons_array->isoutput,(size_t) neurons * sizeof(int));
 	//Initializing weigths and secondary properties
 	for(int i = (neurons-1) * inputs; i < neurons * inputs; i++) { 
 	//Starting adress (using correct pointers arithmetics) of last 
 	//neuron's inputs list = (neurons-1) * inputs
-		*(neurons_array->weightsList + i) 	= (double)rand()\ 
-							/ (double)RAND_MAX;
-		*(neurons_array->linksList + i) 	= (neurons_array->\
-							inputsPerNeuron) + 1;
+		*(neurons_array->weightsList + i) 	= (double)rand() / (double)RAND_MAX;
+		*(neurons_array->linksList + i) 	= (neurons_array->inputsPerNeuron) + 1;
 	}
 	*(neurons_array->errorsList + neurons) 		= 0.0;
 	*(neurons_array->biasweightsList + neurons) 	= 0.0;
@@ -127,8 +109,7 @@ double neuronOutput(size_t id, Network* neurons_array) {
 	double sum = *(neurons_array->biasweightsList + id);
 	for(int i = (id - 1) * inputs; i < id * inputs; i++) { 
 	//CHECK THIS FORMULA IF SOMETHING WENT WRONG
-		sum += ((double) *(neurons_array->inputsList + i))\ 
-		     * ((double) *(neurons_array->weightsList + i)); 
+		sum += ((double) *(neurons_array->inputsList + i)) * ((double) *(neurons_array->weightsList + i)); 
 		//CHECK THIS IF THE OUTPUT IS A REAL WTF BULLSHIT
 	} 
 	return output(sum);
@@ -164,28 +145,20 @@ void setInputs(size_t id, double inputs[], Network* neurons_array) {
 //output_nb is the numbers of output neurons in the structure
 //The output array can also represent the superior hidden layer in case of 
 //multiple hidden layers
-void adjustWeights(size_t id, size_t layerstartid, size_t outputstartid,\ 
-		   size_t output_nb, double result, Network* neurons_array) {
+void adjustWeights(size_t id, size_t layerstartid, size_t outputstartid, size_t output_nb, double result, Network* neurons_array) {
 	int inputs = neurons_array->inputsPerNeuron;
 	if(*(neurons_array->isoutput + id) == 1) {
-		*(neurons_array->errorsList + id) = derivative(neuronOutput\
-						    (id, neurons_array)) * (result\ 
-						    - neuronOutput(id,\ 
-						    neurons_array));
+		*(neurons_array->errorsList + id) = derivative(neuronOutput(id, neurons_array)) * (result - neuronOutput(id,neurons_array));
 	}
 	else if(*(neurons_array->isinput + id) == 0) {
 		double product = derivative(neuronOutput(id, neurons_array));
 		for(int i = outputstartid; i < outputstartid + output_nb; i++) {
-				product *= (*(neurons_array->errorsList + i)\ 
-					   * *(neurons_array->weightsList + i\ 
-					   + id - layerstartid));
+				product *= (*(neurons_array->errorsList + i) * *(neurons_array->weightsList + i + id - layerstartid));
 		}
 		*(neurons_array->errorsList + id) = product;
 	}
 	for(int i = (id-1) * inputs; i < id * inputs; i++) {
-		*(neurons_array->weightsList + i) = *(neurons_array->errorsList\ 
-						    + id) * *(neurons_array->\
-						    inputsList +i);
+		*(neurons_array->weightsList + i) = *(neurons_array->errorsList + id) * *(neurons_array->inputsList +i);
 	}
 }
 
@@ -199,8 +172,7 @@ void neuronLinking(size_t id, Network* neurons_array) {
 		link = *(neurons_array->linksList + i);
 		if(link != 9000) { 
 		//Checking if its not bullshit initialization value
-			*(neurons_array->inputsList + i) = neuronOutput(link,\ 
-							   neurons_array);
+			*(neurons_array->inputsList + i) = neuronOutput(link,neurons_array);
 		}
 		else {
 			*(neurons_array->inputsList + i) = 0.0;	
@@ -220,8 +192,7 @@ void addLink(size_t id1, size_t id2, Network* neurons_array) {
 		printf("NEURAL LINKING ERROR: NO LINK SLOT AVAILABLE");
 	}
 	else {
-		*(neurons_array->linksList + id2 + i) = neuronOutput\
-							(id1, neurons_array);
+		*(neurons_array->linksList + id2 + i) = neuronOutput(id1, neurons_array);
 	}
 }
 
@@ -246,8 +217,7 @@ void saveNetwork(char saveName[], Network* neurons_array) {
 	FILE *structure = fopen(nameStructure, "w+");
 	for(int i = 0; i < neurons_array->neurons; i++) {
 		for(int j = 0; j < neurons_array->inputsPerNeuron; j++) {
-			fprintf(structure, "%u\n", *(neurons_array->linksList +\ 
-			(i*neurons_array->inputsPerNeuron)+j));
+			fprintf(structure, "%u\n", *(neurons_array->linksList + (i*neurons_array->inputsPerNeuron)+j));
 		}
 		fprintf(structure, "%d\n", *(neurons_array->isinput + i));
 		fprintf(structure, "%d\n", *(neurons_array->isoutput + i));
@@ -256,13 +226,10 @@ void saveNetwork(char saveName[], Network* neurons_array) {
 	//Weights save file processing
 	FILE *weights = fopen(nameWeights, "w+");
 	for(int i = 0; i < neurons_array->neurons; i++) {
-		for(int j = i * (neurons_array->inputsPerNeuron);\ 
-		j < neurons_array->inputsPerNeuron; j++) {
-			fprintf(weights, "%1f\n", *(neurons_array->weightsList\ 
-			+ j));
+		for(int j = i * (neurons_array->inputsPerNeuron);j < neurons_array->inputsPerNeuron; j++) {
+			fprintf(weights, "%1f\n", *(neurons_array->weightsList + j));
 		}
-		fprintf(weights, "%lf\n", *(neurons_array->biasweightsList \
-		+ i));
+		fprintf(weights, "%lf\n", *(neurons_array->biasweightsList + i));
 		fprintf(weights, "%lf\n", *(neurons_array->errorsList + i));
 	}
 	fclose(weights);
@@ -300,8 +267,7 @@ void loadNetwork(char saveName[], Network* neurons_array) {
 	}
 	for(int j = 0; j < neurons; j++) {
 		for(int k = 0; k < inputsPerNeuron; k++) {
-			 fscanf(structure, "%u", (neurons_array->linksList+\
-			 (j*inputsPerNeuron)+k));
+			 fscanf(structure, "%u", (neurons_array->linksList+(j*inputsPerNeuron)+k));
 		}
 		fscanf(structure, "%d", (neurons_array->isinput + j));
 		fscanf(structure, "%d", (neurons_array->isoutput + j));
@@ -313,8 +279,7 @@ void loadNetwork(char saveName[], Network* neurons_array) {
 	}
 	for(int l = 0; l < neurons; l++) {
 		for(int m = 0; m < inputsPerNeuron; m++) {
-			fscanf(weights, "%lf", (neurons_array->weightsList+\
-			(l*inputsPerNeuron)+m));
+			fscanf(weights, "%lf", (neurons_array->weightsList+(l*inputsPerNeuron)+m));
 		}
 		fscanf(weights, "%lf", (neurons_array->biasweightsList+l));
 		fscanf(weights, "%lf", (neurons_array->errorsList+l));
