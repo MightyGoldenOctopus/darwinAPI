@@ -18,7 +18,7 @@
 #include "neuralcore.h"
 //Don't forget the -lm at the end of cflags!
 
-void updateSecondaryMetrics(Network* neurons_array) {
+void updateSecondaryMetrics(Network neurons_array) {
 	//Getting primary metrics
 	int inputs = neurons_array->inputsPerNeuron;
 	int neurons = neurons_array->neurons;
@@ -31,7 +31,7 @@ void updateSecondaryMetrics(Network* neurons_array) {
 
 
 //Neurons array initialization function
-void initialize(int inputsNb, Network* neurons_array) {
+void initialize(int inputsNb, Network neurons_array) {
 	neurons_array->neurons = 0;
 	//Initializing inputs array
 	neurons_array->inputsList 	= malloc((size_t)inputsNb * sizeof(double));
@@ -58,7 +58,7 @@ void initialize(int inputsNb, Network* neurons_array) {
 	updateSecondaryMetrics(neurons_array);
 }
 //Neuron adding function
-void addNeuron(Network* neurons_array) {
+void addNeuron(Network neurons_array) {
 	//Updating neccessary metrics
 	(neurons_array->neurons)++;
 	updateSecondaryMetrics(neurons_array);
@@ -96,7 +96,7 @@ double derivative(double x) {
 }
 
 //Neuron linking procedure now built-in in output function (enjoy!)
-double neuronOutput(size_t id, Network* neurons_array) { 
+double neuronOutput(size_t id, Network neurons_array) { 
 	//First neuron id's 0, the second's 1 and so on...
 	//Getting neuron's metrics
 	int inputs = neurons_array->inputsPerNeuron;
@@ -116,7 +116,7 @@ double neuronOutput(size_t id, Network* neurons_array) {
 }
 
 //Input function
-void setInputs(size_t id, double inputs[], Network* neurons_array) { 
+void setInputs(size_t id, double inputs[], Network neurons_array) { 
 	//Getting neuron's metrics
 	int inputsNb = neurons_array->inputsPerNeuron;
 	//Filling the neuron's inputs with values contained in the array
@@ -145,16 +145,17 @@ void setInputs(size_t id, double inputs[], Network* neurons_array) {
 //output_nb is the numbers of output neurons in the structure
 //The output array can also represent the superior hidden layer in case of 
 //multiple hidden layers
-void adjustWeights(size_t id, size_t layerstartid, size_t outputstartid, size_t output_nb, double result, Network* neurons_array) {
+void adjustWeights(size_t id, size_t layerstartid, size_t outputstartid, size_t output_nb, double result, Network neurons_array) {
 	int inputs = neurons_array->inputsPerNeuron;
 	if(*(neurons_array->isoutput + id) == 1) {
 		*(neurons_array->errorsList + id) = derivative(neuronOutput(id, neurons_array)) * (result - neuronOutput(id,neurons_array));
 	}
 	else if(*(neurons_array->isinput + id) == 0) {
-		double product = derivative(neuronOutput(id, neurons_array));
+		double sum = 0;
 		for(int i = outputstartid; i < outputstartid + output_nb; i++) {
-				product *= (*(neurons_array->errorsList + i) * *(neurons_array->weightsList + i + id - layerstartid));
+				product += (*(neurons_array->errorsList + i) * *(neurons_array->weightsList + i + id - layerstartid));
 		}
+		product *= derivative(neuronOutput(id, neurons_array));
 		*(neurons_array->errorsList + id) = product;
 	}
 	for(int i = (id-1) * inputs; i < id * inputs; i++) {
@@ -163,7 +164,7 @@ void adjustWeights(size_t id, size_t layerstartid, size_t outputstartid, size_t 
 }
 
 //Neurons linking functions
-void neuronLinking(size_t id, Network* neurons_array) {
+void neuronLinking(size_t id, Network neurons_array) {
 	size_t link;
 	int array;
 	int j = 0;
@@ -180,7 +181,7 @@ void neuronLinking(size_t id, Network* neurons_array) {
 	}
 }
 
-void addLink(size_t id1, size_t id2, Network* neurons_array) { 
+void addLink(size_t id1, size_t id2, Network neurons_array) { 
 	//Links neuron 1 output to neuron 2 input
 	//Looking for an available link slot
 	int i = 0;
@@ -197,7 +198,7 @@ void addLink(size_t id1, size_t id2, Network* neurons_array) {
 }
 
 //Network Import/Export functions
-void saveNetwork(char saveName[], Network* neurons_array) {
+void saveNetwork(char saveName[], Network neurons_array) {
 	//Defining save files names
 	char nameMetrics[strlen(saveName) + 11];
 	strcpy(nameMetrics, saveName);
@@ -235,7 +236,7 @@ void saveNetwork(char saveName[], Network* neurons_array) {
 	fclose(weights);
 }
 
-void loadNetwork(char saveName[], Network* neurons_array) {
+void loadNetwork(char saveName[], Network neurons_array) {
 	//Defining save files names
 	char nameMetrics[strlen(saveName) + 11];
 	strcpy(nameMetrics, saveName);
@@ -287,15 +288,15 @@ void loadNetwork(char saveName[], Network* neurons_array) {
 }
 
 //Getters/Setters
-int isInput(size_t id, Network* neurons_array) {
+int isInput(size_t id, Network neurons_array) {
 	return *(neurons_array->isinput + id);
 }
 
-int isOutput(size_t id, Network* neurons_array) {
+int isOutput(size_t id, Network neurons_array) {
 	return *(neurons_array->isoutput + id);
 }
 
-void setInputStat(size_t id, int param, Network* neurons_array) {
+void setInputStat(size_t id, int param, Network neurons_array) {
 	if(param == 0 || param == 1) {
 		*(neurons_array->isinput + id) = param;
 	}
@@ -304,7 +305,7 @@ void setInputStat(size_t id, int param, Network* neurons_array) {
 	}
 }
 
-void setOutputStat(size_t id, int param, Network* neurons_array) {
+void setOutputStat(size_t id, int param, Network neurons_array) {
 	if(param == 0 || param == 1) {
 		*(neurons_array->isoutput + id) = param;
 	}
@@ -313,11 +314,11 @@ void setOutputStat(size_t id, int param, Network* neurons_array) {
 	}
 }
 
-int getInputsNb(Network* neurons_array) {
+int getInputsNb(Network neurons_array) {
 	return neurons_array->inputsPerNeuron;
 }
 
-int getNeuronsNb(Network* neurons_array) {
+int getNeuronsNb(Network neurons_array) {
 	return neurons_array->neurons;
 }
 
