@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  neuralcore.c
+ *       Filename:  ffnet.c
  *
  *    Description:  
  *
@@ -16,7 +16,7 @@
  * =====================================================================================
  */
 
-#include	"neuralcore.h"
+#include	"ffnet.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h> //Don't forget -lm Cflag

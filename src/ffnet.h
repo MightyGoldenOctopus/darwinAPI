@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  neuralcore.h
+ *       Filename:  ffnet.h
  *
  *    Description:  
  *
@@ -16,8 +16,8 @@
  * =====================================================================================
  */
 
-#ifndef NEURALCORE_H_
-#define NEURALCORE_H_
+#ifndef FFNET_H_
+#define FFNET_H_
 
 typedef struct {
 	double*	inputs;
