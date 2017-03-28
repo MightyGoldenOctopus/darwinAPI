@@ -26,7 +26,7 @@
 FFNet createFFNet(int layersSize[]) {
 	FFNet init;
 	//Computing maxInputsNb
-	int length = sizeof(layerSize)/sizeof(int);
+	int length = sizeof(layersSize)/sizeof(int);
 	int max = 0;
 	for(int i = 0; i < length && layersSize[i] > max; max = layersSize[i], i++);
 
@@ -41,7 +41,7 @@ FFNet createFFNet(int layersSize[]) {
 	for(int i = 1; i < length; i++) {
 		Neuron* layer = 	malloc(layersSize[i] * sizeof(Neuron));
 		for(int j = 0; j < layersSize[i]; j++) {
-			layer[j] = createNeuron(int inputsNb);
+			layer[j] = createNeuron(init.maxInputsNb);
 		}
 		init.layers[i] = layer;
 	}
@@ -51,33 +51,35 @@ FFNet createFFNet(int layersSize[]) {
 
 //Feed-Forward Network Computation Functions:
 
-double[][] __forwardPropagation(FFNet* network, int layer, double inputs[][]) {
+double** __forwardPropagation(FFNet* network, int layer, double** inputs) {
 	//Calculating layer activity
-	double weightsMatrix[network.layersSize[layer-1]][network.layersSize[layer]];
-	for(int i = 0; i < network.layersSize[layer-1]; i++) {
-		for(int j = 0; j < network.layersSize[layer]; j++) {
-			weightsMatrix[i][j] = network->layers[layer][j]->weights[i];
+	double** weightsMatrix = malloc(network->layersSize[layer-1] * sizeof(double*));
+	for(int i = 0; i < network->layersSize[layer-1]; i++) {
+		double* line = malloc(network->layersSize[layer]*sizeof(double));
+		for(int j = 0; j < network->layersSize[layer]; j++) {
+			line[j] = network->layers[layer][j].weights[i];
 		}
+		weightsMatrix[i] = line;
 	}
-	int length = network.layersSize[layer];
-	int height = sizeof(inputs[]);
-	double layerActivity[height][length] = matrixMult(inputs, weightsMatrix);
+	//layerActivity matrix and its dimensions
+	int h;
+	int l;
+	double** layerActivity = matrixMult(inputs, weightsMatrix, &h, &l);
 
-	//Calculating layer output
-	double layerOutput[height][length];
-	for(int i = 0; i < height; i++) {
-		for(int j = 0; j < length; j++) {
-			layerOutput[i][j] = sigmoid(layerActivity[i][j]);
+	//Calculating layer output (applying sigmoid)
+	for(int i = 0; i < h; i++) {
+		for(int j = 0; j < l; j++) {
+			layerActivity[i][j] = sigmoid(layerActivity[i][j]);
 		}
 	}
-	return layerOutput;
+	return layerActivity;
 }
 
-double[][] forwardPropagation(FFNet* network, double inputs[][]) {
-	for(int i = 1; i < sizeof(network.layersSize)/sizeof(int); i++) {
-		feed = __forwardPropagation(network, i, feed);
+double** forwardPropagation(FFNet* network, double** inputs) {
+	for(int i = 1; i < sizeof(network->layersSize)/sizeof(int); i++) {
+		inputs = __forwardPropagation(network, i, inputs);
 	}
-	return feed;
+	return inputs;
 }
 
 //Basic Neural Functions:
@@ -102,7 +104,8 @@ double derivative(double x) {
 	return x * (1.0 - x);
 }
 
-double[][] matrixMult(double m1[][], double m2[][]) {
+//To be replaced by a subcubic algorithm
+double** matrixMult(double** m1, double** m2, int* h, int* l) {
 	//Calculating matrix sizes
 	int h1 = sizeof(m1) / sizeof(m1[0]);
 	int l1 = sizeof(m1[0]) / sizeof(double);
@@ -111,16 +114,22 @@ double[][] matrixMult(double m1[][], double m2[][]) {
 	if(l1 != h2 || h1 != l2) {
 		printf("WARNING: Invalid matrix sizes for multiplication!");
 	}
+	//Saving result matrix dimensions
+	*h = h1;
+	*l = l2;
+	//Creating result matrix
+	double** m3 = malloc(h1 * sizeof(double*));	
 	//Calculating product
-	double m3[l1][h2];
-	for(int i = 0; i < l1; i++) {
-		for(int j = 0; j < h2; j++) {
+	for(int i = 0; i < h1; i++) {
+		double* line = malloc(l2 * sizeof(double));
+		for(int j = 0; j < l2; j++) {
 			double sum = 0;
 			for(int k = 0; k < h1; k++) {
-				sum += m1[k][i] * m2[j][k];
+				sum += m1[i][k] * m2[k][j];
 			}
-			m3[j][i] = sum;
+			line[j] = sum;
 		}
+		m3[i] = line;
 	}
 	return m3;
 }

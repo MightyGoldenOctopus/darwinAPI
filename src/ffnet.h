@@ -27,7 +27,7 @@ typedef struct {
 } Neuron;
 
 typedef struct {
-	int			layersSize[];
+	int*			layersSize;
 	int			maxInputsNb;
 	double*		inputLayer;
 	Neuron** 	layers;
@@ -36,13 +36,13 @@ typedef struct {
 //FFNet Ops Functions
 FFNet createFFNet(int layersSize[]);
 //FFNet Computation Functions:
-double[][] __forwardPropagation(FFNet* network, int layer, double inputs[][]);
-double[][] forwardPropagation(FFNet* network, double inputs[][]);
+double** __forwardPropagation(FFNet* network, int layer, double** inputs);
+double** forwardPropagation(FFNet* network, double** inputs);
 //Basics Neural Functions
 Neuron createNeuron(int inputsNb);
 //Generic Maths Functions
 double sigmoid(double x);
 double derivative(double x);
-double[][] matrixMult(double m1[][], double m2[][]);
+double** matrixMult(double** m1, double** m2, int* h, int* l);
 
 #endif
