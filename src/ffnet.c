@@ -35,7 +35,7 @@ FFNet createFFNet(int layersSize[]) {
 	init.maxInputsNb = max;
 
 	//Constructing Network
-	init.inputLayer = 	malloc(layersSize[0] * sizeof(double));
+	init.inputLayer = malloc(layersSize[0] * sizeof(double));
 	init.layers = 	malloc((length - 2) * sizeof(Neuron*));
 	//layers[layerNb][neuronID] = neuron
 	for(int i = 1; i < length; i++) {
@@ -102,34 +102,4 @@ double sigmoid(double x) {
 
 double derivative(double x) {
 	return x * (1.0 - x);
-}
-
-//To be replaced by a subcubic algorithm
-double** matrixMult(double** m1, double** m2, int* h, int* l) {
-	//Calculating matrix sizes
-	int h1 = sizeof(m1) / sizeof(m1[0]);
-	int l1 = sizeof(m1[0]) / sizeof(double);
-	int h2 = sizeof(m2) / sizeof(m2[0]);
-	int l2 = sizeof(m2[0]) / sizeof(double);
-	if(l1 != h2 || h1 != l2) {
-		printf("WARNING: Invalid matrix sizes for multiplication!");
-	}
-	//Saving result matrix dimensions
-	*h = h1;
-	*l = l2;
-	//Creating result matrix
-	double** m3 = malloc(h1 * sizeof(double*));	
-	//Calculating product
-	for(int i = 0; i < h1; i++) {
-		double* line = malloc(l2 * sizeof(double));
-		for(int j = 0; j < l2; j++) {
-			double sum = 0;
-			for(int k = 0; k < h1; k++) {
-				sum += m1[i][k] * m2[k][j];
-			}
-			line[j] = sum;
-		}
-		m3[i] = line;
-	}
-	return m3;
 }
