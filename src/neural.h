@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  ffnet.h
+ *       Filename:  neural.h
  *
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  03/27/2017 07:21:49 PM
+ *        Created:  04/10/2017 10:43:25 AM
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,19 +16,13 @@
  * =====================================================================================
  */
 
-#ifndef FFNET_H_
-#define FFNET_H_
+#ifndef NEURAL_H_
+#define NEURAL_H_
 
 typedef struct {
-	int*			layersSize;
-	int			maxInputsNb;
-	double*		inputLayer;
-	Neuron** 	layers;
-} FFNet;
+	double* weights;
+} Neuron;
 
-//FFNet Ops Functions
-FFNet createFFNet(int layersSize[]);
-//FFNet Computation Functions:
-double** __forwardPropagation(FFNet* network, int layer, double** inputs);
-double** forwardPropagation(FFNet* network, double** inputs);
+Neuron createNeuron(int nbInput);
+
 #endif

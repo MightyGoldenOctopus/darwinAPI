@@ -17,6 +17,9 @@
  */
 
 #include	"ffnet.h"
+#include "matrix.h"
+#include "activFunc.h"
+#include "neural.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h> //Don't forget -lm Cflag
@@ -80,26 +83,4 @@ double** forwardPropagation(FFNet* network, double** inputs) {
 		inputs = __forwardPropagation(network, i, inputs);
 	}
 	return inputs;
-}
-
-//Basic Neural Functions:
-
-Neuron createNeuron(int inputsNb) {
-	Neuron init;
-	init.inputs = 	malloc(inputsNb * sizeof(double));
-	init.weights =	malloc(inputsNb * sizeof(double));
-	for(int i = 0; i < inputsNb; i++) {
-		init.weights[i] = (double)rand() / (double)RAND_MAX;
-	}
-	return init;
-}
-
-//Generics Maths Functions:
-
-double sigmoid(double x) {
-	return 1.0 / (1.0 + exp(-x));
-}
-
-double derivative(double x) {
-	return x * (1.0 - x);
 }
