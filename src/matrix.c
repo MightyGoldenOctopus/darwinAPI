@@ -38,7 +38,7 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 		for(int j = 0; j < m2->nbC; j++) {
 			double sum = 0;
 			for(int k = 0; k < m1->nbL; k++) {
-				sum += *elemMatrix(m1, i, j) * *elemMatrix(m2, i, j);
+				sum += *elemMatrix(m1, i, k) * *elemMatrix(m2, k, j);
 			}
 			*elemMatrix(m3, i, j) = sum;
 		}
