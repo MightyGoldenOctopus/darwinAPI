@@ -21,6 +21,7 @@
 
 double sigmoid(x);
 double sigmoidDerivative(x);
+Matrix* sig2Mat(Matrix* m);
 
 double softMax(x);
 #endif
