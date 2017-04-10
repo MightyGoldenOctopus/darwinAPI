@@ -17,7 +17,7 @@
  */
 
 #include <stdlib.h>
-#include "activFunc.h"
+#include "activ.h"
 #include "matrix.h"
 
 double sigmoid(double x) {
