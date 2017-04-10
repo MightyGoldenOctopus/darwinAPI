@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  activFunc.h
+ *       Filename:  activ.h
  *
  *    Description:  
  *
@@ -16,8 +16,8 @@
  * =====================================================================================
  */
 
-#ifndef ACTIVFUNC_H_
-#define ACTIVFUNC_H_
+#ifndef ACTIV_H_
+#define ACTIV_H_
 
 double sigmoid(x);
 double sigmoidDerivative(x);
