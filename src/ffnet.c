@@ -16,9 +16,9 @@
  * =====================================================================================
  */
 
-#include	"ffnet.h"
+#include "ffnet.h"
 #include "matrix.h"
-#include "activFunc.h"
+#include "activ.h"
 #include "neural.h"
 #include <stdlib.h>
 #include <stdio.h>
