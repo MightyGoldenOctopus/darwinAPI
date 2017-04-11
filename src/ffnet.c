@@ -15,21 +15,21 @@
  *
  * =====================================================================================
  */
-
-#include "ffnet.h"
 #include "matrix.h"
 #include "activ.h"
 #include "neural.h"
+#include "ffnet.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h> //Don't forget -lm Cflag
 
 //Feed-Forward Network Operations Functions:
 
-FFNet createFFNet(int layersSize[]) {
+FFNet createFFNet(int layersSize[], int layersNb) {
 	FFNet init;
 	//Computing maxInputsNb
-	int length = sizeof(layersSize)/sizeof(int);
+	int length = layersNb;
+	init.layersNb = layersNb;
 	int max = 0;
 	for(int i = 0; i < length && layersSize[i] > max; max = layersSize[i], i++);
 
@@ -61,7 +61,7 @@ Matrix __forwardPropagation(FFNet* network, int layer, Matrix inputs) {
 	double* weights = malloc(nbL * nbC * sizeof(double));
 	for(int i = 0; i < nbL; i++) {
 		for(int j = 0; j < nbC; j++) {
-			*(weights + i + j) = network->layers[layer][j]->weights[i];
+			*(weights + i + j) = network->layers[layer][j].weights[i];
 		}
 	}
 	Matrix weightsMat = createMatrix(weights, nbL, nbC);
@@ -70,12 +70,22 @@ Matrix __forwardPropagation(FFNet* network, int layer, Matrix inputs) {
 	Matrix layerActivity = multMatrix(&inputs, &weightsMat);
 
 	//Return output matrix (applied sigmoid)
-	return sig2Mat(layerActivity);
+	sig2Mat(&layerActivity);
+	return layerActivity;
 }
 
-double** forwardPropagation(FFNet* network, double** inputs) {
-	for(int i = 1; i < sizeof(network->layersSize)/sizeof(int); i++) {
+Matrix forwardPropagation(FFNet* network, Matrix inputs) {
+	for(int i = 1; i < network->layersNb; i++) {
 		inputs = __forwardPropagation(network, i, inputs);
 	}
 	return inputs;
+}
+
+//Test zone
+int main() {
+	int layers[3] = {2,3,1};
+	createFFNet(layers, 3);
+	double inputs[8] = {0,0,0,1,1,0,1,1};
+	Matrix inputsMat = createMatrix(inputs, 3, 2);
+	return 0;
 }

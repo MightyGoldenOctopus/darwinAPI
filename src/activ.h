@@ -19,9 +19,11 @@
 #ifndef ACTIV_H_
 #define ACTIV_H_
 
-double sigmoid(x);
-double sigmoidDerivative(x);
+#include "matrix.h"
+
+double sigmoid(double x);
+double sigmoidDerivative(double x);
 Matrix* sig2Mat(Matrix* m);
 
-double softMax(x);
+double softMax(double x);
 #endif
