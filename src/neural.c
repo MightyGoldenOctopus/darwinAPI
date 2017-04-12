@@ -22,6 +22,7 @@
 Neuron createNeuron(int inputsNb) {
 	Neuron init;
 	init.weights = malloc(nbInput * sizeof(double));
+	init.bias =	0;
 	for(int i = 0; i < nbInput; i++) {
 		init.weights[i] = (double)rand() / (double)RAND_MAX;
 	}

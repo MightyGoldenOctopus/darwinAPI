@@ -21,6 +21,7 @@
 
 typedef struct {
 	double* weights;
+	double bias;
 } Neuron;
 
 Neuron createNeuron(int nbInput);
