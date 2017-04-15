@@ -28,25 +28,29 @@ Matrix createMatrix(double* data, int nbL, int nbC) {
 	return init;
 }
 
+double* elemMat(Matrix m, int i, int j){
+	return &(m.data[i*m.nbC + j]);
+}
+
 Matrix multMatrix(Matrix* m1, Matrix* m2) {
 	double* result = malloc(m1->nbL * m2->nbC * sizeof(double));
 	Matrix m3 = createMatrix(result, m1->nbL, m2->nbC);
-	for(int i = 0; i < m1->nbL; i++) {
-		for(int j = 0; j < m2->nbC; j++) {
+	for(int i = 0; i < m1->nbL; ++i) {
+		for(int j = 0; j < m2->nbC; ++j) {
 			double sum = 0;
-			for(int k = 0; k < m1->nbL; k++) {
-				sum += m1->data[i+k] * m2->data[k+j];
+			for(int k = 0; k < m1->nbL; ++k) {
+				sum += *elemMat(*m1, i, k) * *elemMat(*m2, k, j);
 			}
-			m3.data[i+j] = sum;
+			*elemMat(m3, i, j) = sum;
 		}
 	}
 	return m3;
 }
 
 void printMatrix(Matrix m) {
-	for(int i = 0; i < m.nbL; i++) {
-		for(int j = 0; j < m.nbC; j++) {
-			printf("%d ", m.data[i+j]);
+	for(int i = 0; i < m.nbL; ++i) {
+		for(int j = 0; j < m.nbC; ++j) {
+			printf("%d ", *elemMat(m, i, j));
 		}
 		printf("\n");
 	}

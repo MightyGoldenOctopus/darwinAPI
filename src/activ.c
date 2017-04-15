@@ -30,9 +30,9 @@ double sigmoidDerivative(double x) {
 }
 
 void sig2Mat(Matrix* m) {
-	for(int i = 0; i < m->nbL; i++) {
-		for(int j = 0; j < m->nbC; j++) {
-			m->data[i+j] = sigmoid(m->data[i+j]);
+	for(int i = 0; i < m->nbL; ++i) {
+		for(int j = 0; j < m->nbC; ++j) {
+			*elemMat(*m, i, j) = sigmoid(*elemMat(*m, i, j));
 		}
 	}
 }
