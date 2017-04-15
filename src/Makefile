@@ -2,7 +2,7 @@
 
 CC=gcc
 
-CFLAGS= -Wall -Wextra -std=c9
+CFLAGS= -Wall -Wextra -std=c99
 
 SRC= neuralnet.c
 OBJ= ${SRC:.c=.o}
