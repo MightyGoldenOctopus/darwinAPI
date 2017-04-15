@@ -27,5 +27,6 @@ typedef struct {
 
 Matrix createMatrix(double* data, int nbL, int nbC);
 Matrix multMatrix(Matrix* m1, Matrix* m2);
+void printMatrix(Matrix m);
 
 #endif

@@ -17,6 +17,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "matrix.h"
 
 Matrix createMatrix(double* data, int nbL, int nbC) {
@@ -40,4 +41,13 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 		}
 	}
 	return m3;
+}
+
+void printMatrix(Matrix m) {
+	for(int i = 0; i < m.nbL; i++) {
+		for(int j = 0; j < m.nbC; j++) {
+			printf("%d ", m.data[i+j]);
+		}
+		printf("\n");
+	}
 }
