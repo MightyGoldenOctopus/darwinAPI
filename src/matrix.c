@@ -34,9 +34,9 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 		for(int j = 0; j < m2->nbC; j++) {
 			double sum = 0;
 			for(int k = 0; k < m1->nbL; k++) {
-				sum += m1->data[i][k] * m2->data[k][j];
+				sum += m1->data[i+k] * m2->data[k+j];
 			}
-			m3->data[i][j] = sum;
+			m3.data[i+j] = sum;
 		}
 	}
 	return m3;

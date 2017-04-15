@@ -17,13 +17,13 @@
  */
 
 #include <stdlib.h>
-#include <neural.h>
+#include "neural.h"
 
 Neuron createNeuron(int inputsNb) {
 	Neuron init;
-	init.weights = malloc(nbInput * sizeof(double));
+	init.weights = malloc(inputsNb * sizeof(double));
 	init.bias =	0;
-	for(int i = 0; i < nbInput; i++) {
+	for(int i = 0; i < inputsNb; i++) {
 		init.weights[i] = (double)rand() / (double)RAND_MAX;
 	}
 	return init;

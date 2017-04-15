@@ -26,7 +26,6 @@ typedef struct {
 } Matrix;
 
 Matrix createMatrix(double* data, int nbL, int nbC);
-double* elemMatrix(Matrix* matrix, int i, int j);
 Matrix multMatrix(Matrix* m1, Matrix* m2);
 
 #endif

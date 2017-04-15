@@ -17,11 +17,12 @@
  */
 
 #include <stdlib.h>
+#include <math.h>
 #include "activ.h"
 #include "matrix.h"
 
 double sigmoid(double x) {
-	return 1.0 / (1.0 + exp(-x);
+	return 1.0 / (1.0 + exp(-x));
 }
 
 double sigmoidDerivative(double x) {
@@ -31,7 +32,7 @@ double sigmoidDerivative(double x) {
 void sig2Mat(Matrix* m) {
 	for(int i = 0; i < m->nbL; i++) {
 		for(int j = 0; j < m->nbC; j++) {
-			*elemMatrix(m, i, j) = sigmoid(*elemMatrix(m, i, j));
+			m->data[i+j] = sigmoid(m->data[i+j]);
 		}
 	}
 }
