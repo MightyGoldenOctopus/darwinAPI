@@ -27,10 +27,6 @@ Matrix createMatrix(double* data, int nbL, int nbC) {
 	return init;
 }
 
-double* elemMatrix(Matrix* matrix, int i, int j) {
-	return (matrix->data + i + j);
-}
-
 Matrix multMatrix(Matrix* m1, Matrix* m2) {
 	double* result = malloc(m1->nbL * m2->nbC * sizeof(double));
 	Matrix m3 = createMatrix(result, m1->nbL, m2->nbC);
@@ -38,9 +34,9 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 		for(int j = 0; j < m2->nbC; j++) {
 			double sum = 0;
 			for(int k = 0; k < m1->nbL; k++) {
-				sum += *elemMatrix(m1, i, k) * *elemMatrix(m2, k, j);
+				sum += m1->data[i][k] * m2->data[k][j];
 			}
-			*elemMatrix(m3, i, j) = sum;
+			m3->data[i][j] = sum;
 		}
 	}
 	return m3;
