@@ -35,10 +35,8 @@ double cost(Matrix output, Matrix results) {
 	return sum;
 }
 
-double costPrime(FFNet* net, Matrix output, Matrix result, int layer) {
-	double delta = addMatrix(results,coeffMatrix(output,-1));
-	//Multiplying by sigPrime of output layer's activity
-	delta *= sigPrime2Mat(net->layersActivity[net->LayersNb-1]);
-	//Multiplying by current layer's activation
-	delta *= net->layersActivity[layer-1];
+Matrix costPrime(FFNet* net, Matrix output, Matrix result, int layer) {
+	//Output's layer delta
+	Matrix delta = coeffMatrix(addMatrix(results,coeffMatrix(output,-1)),-1);
+	delta = multMatrix(sigPrime2Mat(net->layersActivity[net->LayersNb-1]),delta);
 }

@@ -88,3 +88,8 @@ void printMatrix(Matrix m) {
 		printf("\n");
 	}
 }
+
+void freeMatrix(Matrix* m) {
+	free(m->data);
+	free(m);
+}
