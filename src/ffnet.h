@@ -29,6 +29,7 @@ typedef struct {
 	double*		inputLayer;
 	Neuron** 	layers;
 	Matrix*		layersActivity;
+	Matrix*		layersActivation;
 } FFNet;
 
 //FFNet Ops Functions

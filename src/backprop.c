@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "matrix.h"
+#include "ffnet.h"
 
 double cost(Matrix output, Matrix results) {
 	double sum = 0;
@@ -33,3 +34,5 @@ double cost(Matrix output, Matrix results) {
 	sum /= 2;
 	return sum;
 }
+
+double costPrime()
