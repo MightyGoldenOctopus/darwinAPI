@@ -47,6 +47,18 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 	return m3;
 }
 
+Matrix ewMultMatrix(Matrix* m1, Matrix m2) {
+//Entrywise matrix product of 2 same-size matrix
+	double* result = malloc(m1->nbL * m1->nbC * sizeof(double));
+	Matrix m3 = createMatrix(result, m1->nbL, m1->nbC);
+	for(int i = 0; i < m1->nbL; ++i) {
+		for(int j = 0; j < m1->nbC; ++j) {
+			*elemMat(m3, i, j) = *elemMat(*m1,i,j) * *elemMat(*m2,i,j);
+		}
+	}
+	return m3;
+}
+
 Matrix addMatrix(Matrix* m1, Matrix* m2) {
 	double* result = malloc(m1->nbL * m1->nbC * sizeof(double));
 	Matrix m3 = createMatrix(result, m1->nbL, m2->nbC);
