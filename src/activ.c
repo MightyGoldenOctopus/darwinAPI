@@ -29,20 +29,26 @@ double sigmoidDerivative(double x) {
 	return x * (1.0 - x);
 }
 
-void sig2Mat(Matrix* m) {
+Matrix sig2Mat(Matrix* m) {
+	double* results = malloc(m->nbL * m->nbC * sizeof(double));
+	Matrix m3 = createMatrix(results, m->nbL, m->nbC);
 	for(int i = 0; i < m->nbL; ++i) {
 		for(int j = 0; j < m->nbC; ++j) {
-			*elemMat(*m, i, j) = sigmoid(*elemMat(*m, i, j));
+			*elemMat(m3, i, j) = sigmoid(*elemMat(*m, i, j));
 		}
 	}
+	return m3;
 }
 
-void sigPrime2Mat(Matrix* m) {
+Matrix sigPrime2Mat(Matrix* m) {
+	double* results = malloc(m->nbL * m->nbC * sizeof(double));
+	Matrix m3 = createMatrix(results, m->nbL, m->nbC);
 	for(int i = 0; i < m->nbL; ++i) {
 		for(int j = 0; j < m->nbC; ++j) {
-			*elemMat(*m, i, j) = sigmoidDerivative(*elemMat(*m, i, j));
+			*elemMat(m3, i, j) = sigmoidDerivative(*elemMat(*m, i, j));
 		}
 	}
+	return m3;
 }
 
 double softMax(double x) {

@@ -56,7 +56,7 @@ FFNet createFFNet(int layersSize[], int layersNb) {
 
 //Feed-Forward Network Computation Functions:
 
-Matrix weightsMat(FFNet* net, int layer) {
+Matrix weights2Mat(FFNet* net, int layer) {
 	int nbL = net->layersSize[layer-1];
 	int nbC = net->layersSize[layer];
 	double* weights = malloc(nbL * nbC * sizeof(double));
@@ -70,15 +70,14 @@ Matrix weightsMat(FFNet* net, int layer) {
 
 Matrix __forwardProp(FFNet* net,int layer,Matrix inputs,Matrix* activLayer){
 	//Creating weights matrix
-	Matrix weightsMat = weightsMat(net, layer);
+	Matrix weightsMat = weights2Mat(net, layer);
 
 	//Creating layer activity matrix
 	Matrix layerActivity = multMatrix(&inputs, &weightsMat);
 	//Saving layer activity into network
 	*activLayer = layerActivity;
 	//Return output matrix (applied sigmoid)
-	sig2Mat(&layerActivity);
-	return layerActivity;
+	return sig2Mat(layerActivity);
 }
 
 Matrix forwardPropagation(FFNet* net, Matrix inputs) {

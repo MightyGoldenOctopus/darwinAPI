@@ -74,7 +74,7 @@ Matrix transMatrix(Matrix* m) {
 	Matrix m3 = createMatrix(result, m->nbC, m->nbL);
 	for(int i = 0; i < m->nbL; ++i) {
 		for(int j = 0; j < m->nbC; ++j) {
-			*elemMat(m3,j,i) = *elem(*m, i, j);
+			*elemMat(m3,j,i) = *elemMat(*m, i, j);
 		}
 	}
 	return m3;

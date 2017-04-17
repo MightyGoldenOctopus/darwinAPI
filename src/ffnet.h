@@ -35,6 +35,7 @@ typedef struct {
 //FFNet Ops Functions
 FFNet createFFNet(int layersSize[], int layersNb);
 //FFNet Computation Functions:
+Matrix weights2Mat(FFNet* net, int layer);
 Matrix __forwardPropagation(FFNet* network, int layer, Matrix inputs);
 Matrix forwardPropagation(FFNet* network, Matrix inputs);
 #endif
