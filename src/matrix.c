@@ -47,7 +47,7 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 	return m3;
 }
 
-Matrix ewMultMatrix(Matrix* m1, Matrix m2) {
+Matrix ewMultMatrix(Matrix* m1, Matrix* m2) {
 //Entrywise matrix product of 2 same-size matrix
 	double* result = malloc(m1->nbL * m1->nbC * sizeof(double));
 	Matrix m3 = createMatrix(result, m1->nbL, m1->nbC);
