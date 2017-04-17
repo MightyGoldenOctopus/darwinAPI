@@ -88,6 +88,7 @@ int main() {
 	double inputs[8] = {0,0,0,1,1,0,1,1};
 	Matrix inputsMat = createMatrix(inputs, 4, 2);
 	printMatrix(inputsMat);
+	printf("%d", inputsMat.data);
 	Matrix results = forwardPropagation(&network, inputsMat);
 	printMatrix(results);
 	return 0;
