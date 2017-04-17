@@ -69,6 +69,17 @@ Matrix coeffMatrix(Matrix* m1, double coeff) {
 	return m3;
 }
 
+Matrix transMatrix(Matrix* m) {
+	double* result = malloc(m->nbL * m->nbC * sizeof(double));
+	Matrix m3 = createMatrix(result, m->nbC, m->nbL);
+	for(int i = 0; i < m->nbL; ++i) {
+		for(int j = 0; j < m->nbC; ++j) {
+			*elemMat(m3,j,i) = *elem(*m, i, j);
+		}
+	}
+	return m3;
+}
+
 void printMatrix(Matrix m) {
 	for(int i = 0; i < m.nbL; ++i) {
 		for(int j = 0; j < m.nbC; ++j) {
