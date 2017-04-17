@@ -19,6 +19,7 @@
 #include "activ.h"
 #include "neural.h"
 #include "ffnet.h"
+#include "backprop.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h> //Don't forget -lm Cflag
@@ -87,13 +88,14 @@ int main() {
 	FFNet network = createFFNet(layers, 3);
 	double inputs[8] = {0,0,0,1,1,0,1,1};
 	Matrix inputsMat = createMatrix(inputs, 4, 2);
-	for(int i = 0; i < inputsMat.nbC * inputsMat.nbL; i++){
-		printf("%f ", inputsMat.data[i]);
-	}
+	double results[4] = {0,1,1,0};
+	Matrix resultsMat = createMatrix(results, 4, 1);
+
 	printf("\nInputs Matrix:\n");
 	printMatrix(inputsMat);
-	Matrix results = forwardPropagation(&network, inputsMat);
+	Matrix output = forwardPropagation(&network, inputsMat);
 	printf("\nResults Matrix:\n");
-	printMatrix(results);
+	printMatrix(output);
+	printf("\nOverall Cost: %f \n", cost(output, resultsMat));
 	return 0;
 }
