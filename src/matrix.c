@@ -47,12 +47,23 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 	return m3;
 }
 
-Matrix addMatrix(Matrix* m1, Matrix* m2, double coeff) {
-	double* result = malloc (m1->nbL * m1->nbC * sizeof(double));
+Matrix addMatrix(Matrix* m1, Matrix* m2) {
+	double* result = malloc(m1->nbL * m1->nbC * sizeof(double));
 	Matrix m3 = createMatrix(result, m1->nbL, m2->nbC);
 	for(int i = 0; i < m1->nbL; ++i) {
 		for(int j = 0; j < m1->nbC; ++j) {
-			*elemMat(m3, i, j) = *elemMat(*m1,i,j) * coeff * *elemMat(*m2,i,j);
+			*elemMat(m3, i, j) = *elemMat(*m1,i,j) + *elemMat(*m2,i,j);
+		}
+	}
+	return m3;
+}
+
+Matrix coeffMatrix(Matrix* m1, double coeff) {
+	double* result = malloc(m1->nbL * m1->nbC * sizeof(double));
+	Matrix m3 = createMatrix(result, m1->nbL, m1->nbC);
+	for(int i = 0; i < m1-> nbL; ++i) {
+		for(int j = 0; j < m1->nbC; ++j) {
+			*elemMat(m3,i,j) = *elemMat(*m1,i,j) * coeff;
 		}
 	}
 	return m3;

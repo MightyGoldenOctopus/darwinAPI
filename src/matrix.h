@@ -28,7 +28,8 @@ typedef struct {
 Matrix createMatrix(double* data, int nbL, int nbC);
 double* elemMat(Matrix m, int i, int j);
 Matrix multMatrix(Matrix* m1, Matrix* m2);
-Matrix addMatrix(Matrix* m1, Matrix* m2, double coeff);
+Matrix addMatrix(Matrix* m1, Matrix* m2);
+Matrix coeffMatrix(Matrix* m1, double coeff);
 void printMatrix(Matrix m);
 
 #endif
