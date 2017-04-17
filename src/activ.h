@@ -24,6 +24,7 @@
 double sigmoid(double x);
 double sigmoidDerivative(double x);
 void sig2Mat(Matrix* m);
+void sigPrime2Mat(Matrix* m);
 
 double softMax(double x);
 #endif

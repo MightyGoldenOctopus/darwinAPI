@@ -28,15 +28,15 @@
 
 FFNet createFFNet(int layersSize[], int layersNb) {
 	FFNet init;
-	//Computing maxInputsNb
 	int length = layersNb;
-	init.layersNb = layersNb;
 	int max = 0;
 	for(int i = 0; i < length && layersSize[i] > max; max = layersSize[i], i++);
 
 	//Initializing metrics
+	init.layersNb = layersNb;
 	init.layersSize = layersSize;
 	init.maxInputsNb = max;
+	init.layersActivity = malloc((layersNb-1)*sizeof(Matrix));
 
 	//Constructing Network
 	init.inputLayer = malloc(layersSize[0] * sizeof(double));
@@ -78,6 +78,7 @@ Matrix __forwardPropagation(FFNet* network, int layer, Matrix inputs) {
 Matrix forwardPropagation(FFNet* network, Matrix inputs) {
 	for(int i = 1; i < network->layersNb; i++) {
 		inputs = __forwardPropagation(network, i, inputs);
+		network->layersActivity[i-1] = inputs;
 	}
 	return inputs;
 }

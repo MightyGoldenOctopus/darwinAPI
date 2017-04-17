@@ -37,6 +37,14 @@ void sig2Mat(Matrix* m) {
 	}
 }
 
+void sigPrime2Mat(Matrix* m) {
+	for(int i = 0; i < m->nbL; ++i) {
+		for(int j = 0; j < m->nbC; ++j) {
+			*elemMat(*m, i, j) = sigmoidDerivative(*elemMat(*m, i, j));
+		}
+	}
+}
+
 double softMax(double x) {
 	//FIXME
 	return 0.0;

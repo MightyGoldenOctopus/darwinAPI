@@ -28,6 +28,7 @@ typedef struct {
 	int			maxInputsNb;
 	double*		inputLayer;
 	Neuron** 	layers;
+	Matrix*		layersActivity;
 } FFNet;
 
 //FFNet Ops Functions
