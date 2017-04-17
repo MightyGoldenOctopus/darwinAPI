@@ -29,7 +29,7 @@ Matrix createMatrix(double* data, int nbL, int nbC) {
 }
 
 double* elemMat(Matrix m, int i, int j){
-	return &(m.data[i*m.nbC + j]);
+	return &(m.data[i * m.nbC + j]);
 }
 
 Matrix multMatrix(Matrix* m1, Matrix* m2) {
@@ -50,7 +50,7 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 void printMatrix(Matrix m) {
 	for(int i = 0; i < m.nbL; ++i) {
 		for(int j = 0; j < m.nbC; ++j) {
-			printf("%d ", *elemMat(m, i, j));
+			printf("%f ", *elemMat(m, i, j));
 		}
 		printf("\n");
 	}

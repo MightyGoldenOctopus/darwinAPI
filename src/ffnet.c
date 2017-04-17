@@ -87,9 +87,13 @@ int main() {
 	FFNet network = createFFNet(layers, 3);
 	double inputs[8] = {0,0,0,1,1,0,1,1};
 	Matrix inputsMat = createMatrix(inputs, 4, 2);
+	for(int i = 0; i < inputsMat.nbC * inputsMat.nbL; i++){
+		printf("%f ", inputsMat.data[i]);
+	}
+	printf("\nInputs Matrix:\n");
 	printMatrix(inputsMat);
-	printf("%d", inputsMat.data);
 	Matrix results = forwardPropagation(&network, inputsMat);
+	printf("\nResults Matrix:\n");
 	printMatrix(results);
 	return 0;
 }
