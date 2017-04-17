@@ -77,7 +77,7 @@ Matrix __forwardProp(FFNet* net,int layer,Matrix inputs,Matrix* activLayer){
 	//Saving layer activity into network
 	*activLayer = layerActivity;
 	//Return output matrix (applied sigmoid)
-	return sig2Mat(layerActivity);
+	return sig2Mat(&layerActivity);
 }
 
 Matrix forwardPropagation(FFNet* net, Matrix inputs) {
