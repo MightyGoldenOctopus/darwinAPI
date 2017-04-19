@@ -20,6 +20,7 @@
 #include "neural.h"
 
 Neuron createNeuron(int inputsNb) {
+	srand((int)time(NULL));
 	Neuron init;
 	init.weights = malloc(inputsNb * sizeof(double));
 	init.bias =	0;
