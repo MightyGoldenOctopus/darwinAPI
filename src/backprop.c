@@ -46,6 +46,7 @@ Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
 	Matrix delta = multMatrix(deltaSup,&weights);
 	delta = ewMultMatrix(&delta,&activation);
 	Matrix dJdW = multMatrix(&(net->layersActivity[layer-1]),deltaSup);
+	*deltaSup = delta;
 	return dJdW;
 }
 
@@ -58,6 +59,15 @@ Matrix* costPrime(FFNet* net, Matrix* output, Matrix* results) {
 	deltaOut = coeffMatrix(&deltaOut,-1);
 	Matrix activationOut = sigPrime2Mat(output);
 	deltaOut = ewMultMatrix(&deltaOut,&activationOut);
-	
-	
+	//Last hidden layer gradient matrix	
+	Matrix activityLast = net->layersActivity[net->layersNb-2];
+	activityLast = transMatrix(&activityLast);
+	Matrix dJdWLast = multMatrix(&activityLast,&deltaOut);
+	gradients[0] = dJdWLast;
+	//Computing gradient matrix for others hidden layers
+	int j = 1;
+	for(int i = net->layersNb-2; i > 1; --i, ++j) {
+		gradients[j] = hiddenGradient(net, i,&deltaOut);
+	}
+	return gradients;
 }
