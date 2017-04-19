@@ -20,6 +20,7 @@
 #include <math.h>
 #include "matrix.h"
 #include "ffnet.h"
+#include "activ.h"
 
 double cost(Matrix output, Matrix results) {
 	double sum = 0;
@@ -35,9 +36,28 @@ double cost(Matrix output, Matrix results) {
 	return sum;
 }
 
-Matrix costPrime(FFNet* net, Matrix* output, Matrix* results, int layer) {
+Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
+/* To be used with layer index comprised between first h layer+1
+ * and last hidden layer.
+ */
+	Matrix weights = weights2Mat(net, layer);
+	weights = transMatrix(&weights);
+	Matrix activation = sigPrime2Mat(&(net->layersActivation[layer]));
+	Matrix delta = multMatrix(deltaSup,&weights);
+	delta = ewMultMatrix(&delta,&activation);
+	Matrix dJdW = multMatrix(&(net->layersActivity[layer-1]),deltaSup);
+	return dJdW;
+}
+
+Matrix* costPrime(FFNet* net, Matrix* output, Matrix* results) {
+	//Gradient matrix for each hidden layers
+	Matrix* gradients = malloc(((net->layersNb)-2) * sizeof(Matrix));
 	//Output's layer delta
-	//Matrix negOut = coeffMatrix(output,-1);
-	//Matrix delta = coeffMatrix(addMatrix(results,&negOut),-1);
-	//delta = ewMultMatrix(sigPrime2Mat(net->layersActivity[net->layersNb-1]),&delta);
+	Matrix negOut = coeffMatrix(output,-1);
+	Matrix deltaOut = addMatrix(results,&negOut);
+	deltaOut = coeffMatrix(&deltaOut,-1);
+	Matrix activationOut = sigPrime2Mat(output);
+	deltaOut = ewMultMatrix(&deltaOut,&activationOut);
+	
+	
 }

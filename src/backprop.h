@@ -20,5 +20,7 @@
 #define BACKPROP_H_
 
 double cost(Matrix output, Matrix results);
+Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup);
+Matrix* costPrime(FFNet* net, Matrix* output, Matrix* results);
 
 #endif
