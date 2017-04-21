@@ -40,9 +40,9 @@ Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
 /* To be used with layer index comprised between first h layer+1
  * and last hidden layer.
  */
-	weights = transMatrix(&(net->layersWeights[layer]));
-	Matrix activation = sigPrime2Mat(&(net->layersActivation[layer]));
-	Matrix delta = multMatrix(deltaSup,&(net->layersWeights[layer]));
+	Matrix weights = transMatrix(&(net->layersWeights[layer]));
+	Matrix activation = sigPrime2Mat(&weights);
+	Matrix delta = multMatrix(deltaSup,&weights);
 	delta = ewMultMatrix(&delta,&activation);
 	Matrix dJdW = multMatrix(&(net->layersActivity[layer-1]),deltaSup);
 	*deltaSup = delta;
