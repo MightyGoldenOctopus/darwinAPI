@@ -31,7 +31,7 @@ FFNet createFFNet(int layersSize[], int layersNb) {
 	init.layersNb = layersNb;
 	init.layersSize = layersSize;
 	//Creating operation matrixs
-	init.layersActivity = malloc((layersNb-1)*sizeof(Matrix));
+	init.layersActivity = malloc((layersNb)*sizeof(Matrix));
 	init.layersActivation = malloc((layersNb-1)*sizeof(Matrix));
 	//Creating weights matrixs
 	for(int i = 0; i < init.layersNb - 1; i++) {
@@ -45,6 +45,7 @@ FFNet createFFNet(int layersSize[], int layersNb) {
 Matrix weightsMat(FFNet* net, int layer) {
 	int nbL = net->layersSize[layer-1];
 	int nbC = net->layersSize[layer];
+	//Add random seed here when fully operational
 	double* weights = malloc(nbL * nbC * sizeof(double));
 	for(int i = 0; i < nbL; ++i) {
 		for(int j = 0; j < nbC; ++j) {
@@ -64,9 +65,10 @@ Matrix __forwardProp(FFNet* net,int layer,Matrix inputs,Matrix* activLayer){
 }
 
 Matrix forwardPropagation(FFNet* net, Matrix inputs) {
+	net->layersActivity[0] = inputs;
 	for(int i = 1; i < net->layersNb; i++) {
 		inputs= __forwardProp(net,i,inputs,&net->layersActivation[i-1]);
-		net->layersActivity[i-1] = inputs;
+		net->layersActivity[i] = inputs;
 	}
 	return inputs;
 }
