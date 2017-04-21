@@ -44,6 +44,9 @@ Matrix multMatrix(Matrix* m1, Matrix* m2) {
 			*elemMat(m3, i, j) = sum;
 		}
 	}
+	if(m1->nbL != m2->nbC) {
+		printf("MATRIX WARNING: incompatible sizes (mult)\n");
+	}
 	return m3;
 }
 
@@ -56,6 +59,9 @@ Matrix ewMultMatrix(Matrix* m1, Matrix* m2) {
 			*elemMat(m3, i, j) = *elemMat(*m1,i,j) * *elemMat(*m2,i,j);
 		}
 	}
+	if(m1->nbL != m2->nbC) {
+		printf("MATRIX WARNING: incompatible sizes (EWmult)\n");
+	}
 	return m3;
 }
 
@@ -66,6 +72,9 @@ Matrix addMatrix(Matrix* m1, Matrix* m2) {
 		for(int j = 0; j < m1->nbC; ++j) {
 			*elemMat(m3, i, j) = *elemMat(*m1,i,j) + *elemMat(*m2,i,j);
 		}
+	}
+	if(m1->nbL != m2->nbL || m1->nbC != m2->nbC) {
+		printf("MATRIX WARNING: incompatible sizes (add)\n");
 	}
 	return m3;
 }

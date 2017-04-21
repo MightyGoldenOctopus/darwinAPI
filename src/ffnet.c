@@ -34,7 +34,9 @@ FFNet createFFNet(int layersSize[], int layersNb) {
 	//Creating operation matrixs
 	init.layersActivity = malloc((layersNb)*sizeof(Matrix));
 	init.layersActivation = malloc((layersNb-1)*sizeof(Matrix));
+	init.layersWeights = malloc((layersNb-1)*sizeof(Matrix));
 	//Creating weights matrixs
+	srand(time(NULL));
 	for(int i = 0; i < init.layersNb - 1; i++) {
 		init.layersWeights[i] = weightsMat(&init, i+1);
 	}
@@ -46,14 +48,14 @@ FFNet createFFNet(int layersSize[], int layersNb) {
 Matrix weightsMat(FFNet* net, int layer) {
 	int nbL = net->layersSize[layer-1];
 	int nbC = net->layersSize[layer];
-	srand(time(NULL));
 	double* weights = malloc(nbL * nbC * sizeof(double));
+	Matrix res = createMatrix(weights, nbL, nbC);
 	for(int i = 0; i < nbL; ++i) {
 		for(int j = 0; j < nbC; ++j) {
-			*(weights+i+j) = (double)rand()/(double)RAND_MAX;
+			*(elemMat(res,i,j)) = (double)rand()/(double)RAND_MAX;
 		}
 	}
-	return createMatrix(weights, nbL, nbC);
+	return res;
 }
 
 Matrix __forwardProp(FFNet* net,int layer,Matrix inputs,Matrix* activLayer){
@@ -94,12 +96,17 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 
 //Test zone
 int main() {
-	int layers[3] = {2,3,1};
+	int layers[3] = {2,4,1};
 	FFNet network = createFFNet(layers, 3);
 	double inputs[8] = {0,0,0,1,1,0,1,1};
 	Matrix inputsMat = createMatrix(inputs, 4, 2);
 	double results[4] = {0,1,1,0};
-	Matrix resultsMat = createMatrix(results, 4, 1);
+	Matrix resultsMat = createMatrix(results, 3, 1);
+
+	printf("\nRandomized Layers Matrix:\n");
+	for(int i = 0; i < (network.layersNb)-1; i++){
+		printMatrix(network.layersWeights[i]);
+	}
 
 	printf("\nInputs Matrix:\n");
 	printMatrix(inputsMat);
@@ -109,7 +116,7 @@ int main() {
 	printf("\nOverall Cost: %f \n", cost(output, resultsMat));
 	
 	printf("\nTRAINING NETWORK...\n");
-	trainFFNet(&network, 2000, &inputsMat, &resultsMat);
+	//trainFFNet(&network, 2000, &inputsMat, &resultsMat);
 	output = forwardPropagation(&network,inputsMat);
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);
