@@ -28,62 +28,46 @@
 
 FFNet createFFNet(int layersSize[], int layersNb) {
 	FFNet init;
-	int length = layersNb;
-	int max = 0;
-	for(int i = 0; i < length && layersSize[i] > max; max = layersSize[i], i++);
-
 	//Initializing metrics
 	init.layersNb = layersNb;
 	init.layersSize = layersSize;
-	init.maxInputsNb = max;
+	//Creating operation matrixs
 	init.layersActivity = malloc((layersNb-1)*sizeof(Matrix));
 	init.layersActivation = malloc((layersNb-1)*sizeof(Matrix));
-
-	//Constructing Network
-	init.inputLayer = malloc(layersSize[0] * sizeof(double));
-	init.layers = 	malloc((length - 2) * sizeof(Neuron*));
-	//layers[layerNb][neuronID] = neuron
-	for(int i = 1; i < length; i++) {
-		Neuron* layer = 	malloc(layersSize[i] * sizeof(Neuron));
-		for(int j = 0; j < layersSize[i]; j++) {
-			layer[j] = createNeuron(init.maxInputsNb);
-		}
-		init.layers[i] = layer;
+	//Creating weights matrixs
+	for(int i = 0; i < init.layersNb - 1; i++) {
+		init.layersWeights[i] = weightsMat(&init, i+1);
 	}
-
 	return init;
 }
 
 //Feed-Forward Network Computation Functions:
 
-Matrix weights2Mat(FFNet* net, int layer) {
+Matrix weightsMat(FFNet* net, int layer) {
 	int nbL = net->layersSize[layer-1];
 	int nbC = net->layersSize[layer];
 	double* weights = malloc(nbL * nbC * sizeof(double));
 	for(int i = 0; i < nbL; ++i) {
 		for(int j = 0; j < nbC; ++j) {
-			*(weights+i+j) = net->layers[layer][j].weights[i];
+			*(weights+i+j) = (double)rand()/(double)RAND_MAX;
 		}
 	}
 	return createMatrix(weights, nbL, nbC);
 }
 
 Matrix __forwardProp(FFNet* net,int layer,Matrix inputs,Matrix* activLayer){
-	//Creating weights matrix
-	Matrix weightsMat = weights2Mat(net, layer);
-
 	//Creating layer activity matrix
-	Matrix layerActivity = multMatrix(&inputs, &weightsMat);
-	//Saving layer activity into network
-	*activLayer = layerActivity;
-	//Return output matrix (applied sigmoid)
-	return sig2Mat(&layerActivity);
+	Matrix layerActivation = multMatrix(&inputs, &net->layersWeights[layer-1]);
+	//Saving layer activion matrix into network
+	*activLayer = layerActivation;
+	//Return activity matrix (applied sigmoid)
+	return sig2Mat(&layerActivation);
 }
 
 Matrix forwardPropagation(FFNet* net, Matrix inputs) {
 	for(int i = 1; i < net->layersNb; i++) {
-		inputs= __forwardProp(net,i,inputs,&net->layersActivity[i-1]);
-		net->layersActivation[i-1] = inputs;
+		inputs= __forwardProp(net,i,inputs,&net->layersActivation[i-1]);
+		net->layersActivity[i-1] = inputs;
 	}
 	return inputs;
 }
