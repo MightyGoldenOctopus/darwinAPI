@@ -35,4 +35,5 @@ FFNet createFFNet(int layersSize[], int layersNb);
 Matrix weightsMat(FFNet* net, int layer);
 Matrix __forwardPropagation(FFNet* net, int layer, Matrix inputs);
 Matrix forwardPropagation(FFNet* net, Matrix inputs);
+void	trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results);
 #endif
