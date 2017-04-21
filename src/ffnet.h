@@ -19,7 +19,6 @@
 #ifndef FFNET_H_
 #define FFNET_H_
 
-#include "neural.h"
 #include "matrix.h"
 
 typedef struct {

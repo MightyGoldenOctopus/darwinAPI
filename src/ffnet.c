@@ -17,7 +17,6 @@
  */
 #include "matrix.h"
 #include "activ.h"
-#include "neural.h"
 #include "ffnet.h"
 #include "backprop.h"
 #include <stdlib.h>
