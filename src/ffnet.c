@@ -73,6 +73,24 @@ Matrix forwardPropagation(FFNet* net, Matrix inputs) {
 	return inputs;
 }
 
+void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
+	Matrix output;
+	double lr = 0.1 / inputs->nbL;
+	int i = 0;
+	while(i < epoch) {
+		i++;
+		output = forwardPropagation(net, *inputs);
+		//Calculating gradients for each layers
+		Matrix* gradients = costPrime(net,&output,results);
+		//Updating the weights
+		int j = 0;
+		for(int i = net->layersNb-1; i > 1; --i, ++j){
+			Matrix updateMat= coeffMatrix(&gradients[j],-lr);
+			net->layersWeights[i] = addMatrix(&net->layersWeights[i],&updateMat);
+		}
+	}
+}
+
 //Test zone
 int main() {
 	int layers[3] = {2,3,1};

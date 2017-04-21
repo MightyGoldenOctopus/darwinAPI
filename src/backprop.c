@@ -63,11 +63,10 @@ Matrix* costPrime(FFNet* net, Matrix* output, Matrix* results) {
 	activityLast = transMatrix(&activityLast);
 	Matrix dJdWLast = multMatrix(&activityLast,&deltaOut);
 	gradients[0] = dJdWLast;
-	//Computing gradient matrix for hidden layers except first
+	//Computing gradient matrix for hidden layers
 	int j = 1;
-	for(int i = net->layersNb-1; i > 1; --i, ++j) {
+	for(int i = net->layersNb-2; i > 1; --i, ++j) {
 		gradients[j] = hiddenGradient(net, i,&deltaOut);
 	}
-	//Conputing first hidden layer gradient matrix
 	return gradients;
 }
