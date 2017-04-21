@@ -43,7 +43,7 @@ Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
 	Matrix weights = transMatrix(&(net->layersWeights[layer]));
 	Matrix activation = sigPrime2Mat(&weights);
 	Matrix delta = multMatrix(deltaSup,&weights);
-	delta = ewMultMatrix(&delta,&activation);
+	delta = multMatrix(&delta,&activation);
 	Matrix dJdW = multMatrix(&(net->layersActivity[layer-1]),deltaSup);
 	*deltaSup = delta;
 	return dJdW;

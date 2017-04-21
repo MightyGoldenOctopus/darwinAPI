@@ -20,6 +20,7 @@
 #include "ffnet.h"
 #include "backprop.h"
 #include <stdlib.h>
+#include <time.h>
 #include <stdio.h>
 #include <math.h> //Don't forget -lm Cflag
 
@@ -45,7 +46,7 @@ FFNet createFFNet(int layersSize[], int layersNb) {
 Matrix weightsMat(FFNet* net, int layer) {
 	int nbL = net->layersSize[layer-1];
 	int nbC = net->layersSize[layer];
-	//Add random seed here when fully operational
+	srand(time(NULL));
 	double* weights = malloc(nbL * nbC * sizeof(double));
 	for(int i = 0; i < nbL; ++i) {
 		for(int j = 0; j < nbC; ++j) {
@@ -84,9 +85,9 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 		Matrix* gradients = costPrime(net,&output,results);
 		//Updating the weights
 		int j = 0;
-		for(int i = net->layersNb-1; i > 1; --i, ++j){
+		for(int k = net->layersNb-1; k > 1; --k, ++j){
 			Matrix updateMat= coeffMatrix(&gradients[j],-lr);
-			net->layersWeights[i] = addMatrix(&net->layersWeights[i],&updateMat);
+			net->layersWeights[k] = addMatrix(&net->layersWeights[k],&updateMat);
 		}
 	}
 }
@@ -106,5 +107,12 @@ int main() {
 	printf("\nResults Matrix:\n");
 	printMatrix(output);
 	printf("\nOverall Cost: %f \n", cost(output, resultsMat));
+	
+	printf("\nTRAINING NETWORK...\n");
+	trainFFNet(&network, 2000, &inputsMat, &resultsMat);
+	output = forwardPropagation(&network,inputsMat);
+	printf("\nNew Results Matrix:\n");
+	printMatrix(output);
+	printf("\nNew Overall Cost: %f\n", cost(output, resultsMat));
 	return 0;
 }
