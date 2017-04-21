@@ -26,7 +26,7 @@ double sigmoid(double x) {
 }
 
 double sigmoidDerivative(double x) {
-	return x * (1.0 - x);
+	return sigmoid(x) * (1.0 - sigmoid(x));
 }
 
 Matrix sig2Mat(Matrix* m) {

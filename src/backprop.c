@@ -37,7 +37,7 @@ double cost(Matrix output, Matrix results) {
 }
 
 Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
-/* To be used with layer index comprised between first h layer+1
+/* To be used with layer index comprised between first h layer
  * and last hidden layer.
  */
 	Matrix weights = transMatrix(&(net->layersWeights[layer+1]));
