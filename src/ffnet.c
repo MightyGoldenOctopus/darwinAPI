@@ -90,10 +90,7 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 		for(int k = net->layersNb-2; k >= 0; --k, ++j){
 			Matrix updateMat = coeffMatrix(&gradients[j],-lr);
 			net->layersWeights[k] = addMatrix(&net->layersWeights[k],&updateMat);
-			printMatrix(updateMat);
-			printf("\n");
 		}
-		free(gradients);
 	}
 }
 
