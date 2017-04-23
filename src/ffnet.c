@@ -103,11 +103,6 @@ int main() {
 	double results[4] = {0,1,1,0};
 	Matrix resultsMat = createMatrix(results, 4, 1);
 
-	printf("\nRandomized Layers Matrix:\n");
-	for(int i = 0; i < (network.layersNb)-1; i++){
-		printMatrix(network.layersWeights[i]);
-	}
-
 	printf("\nInputs Matrix:\n");
 	printMatrix(inputsMat);
 	Matrix output = forwardPropagation(&network, inputsMat);
@@ -115,8 +110,8 @@ int main() {
 	printMatrix(output);
 	printf("\nOverall Cost: %f \n", cost(output, resultsMat));
 	
-	printf("\nTRAINING NETWORK...\n");
-	trainFFNet(&network, 1, &inputsMat, &resultsMat);
+	printf("\nTRAINING NETWORK... (epochs: 200000)\n");
+	trainFFNet(&network, 200000, &inputsMat, &resultsMat);
 	output = forwardPropagation(&network,inputsMat);
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);

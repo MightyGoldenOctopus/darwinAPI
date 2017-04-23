@@ -48,7 +48,6 @@ Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
 	Matrix activity = transMatrix(&(net->layersActivity[layer-1]));
 	Matrix dJdW = multMatrix(&activity,&delta);
 	*deltaSup = delta;
-	printf("Layer %d COMPLETE\n", layer+1);
 	return dJdW;
 }
 
@@ -67,7 +66,6 @@ Matrix* costPrime(FFNet* net, Matrix* output, Matrix* results) {
 	Matrix dJdWLast = multMatrix(&activityLast,&deltaOut);
 	gradients[0] = dJdWLast;
 	//Computing gradient matrix for hidden layers
-	printf("\nOutput layer COMPLETE\n");
 	int j = 1;
 	for(int i = net->layersNb-2; i > 0; --i, ++j) {
 		gradients[j] = hiddenGradient(net, i,&deltaOut);
