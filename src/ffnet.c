@@ -118,6 +118,7 @@ int main() {
 	
 	printf("\nTRAINING NETWORK... (epochs: 250000)\n");
 	trainFFNet(&network, 250000, &inputsMat, &resultsMat);
+
 	output = forwardPropagation(&network,inputsMat);
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);
