@@ -50,8 +50,3 @@ Matrix sigPrime2Mat(Matrix* m) {
 	}
 	return m3;
 }
-
-double softMax(double x) {
-	//FIXME
-	return 0.0;
-}
