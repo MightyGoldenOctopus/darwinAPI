@@ -110,8 +110,8 @@ int main() {
 	printMatrix(output);
 	printf("\nOverall Cost: %f \n", cost(output, resultsMat));
 	
-	printf("\nTRAINING NETWORK... (epochs: 200000)\n");
-	trainFFNet(&network, 200000, &inputsMat, &resultsMat);
+	printf("\nTRAINING NETWORK... (epochs: 50000)\n");
+	trainFFNet(&network, 50000, &inputsMat, &resultsMat);
 	output = forwardPropagation(&network,inputsMat);
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);
