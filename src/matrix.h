@@ -32,6 +32,7 @@ Matrix ewMultMatrix(Matrix* m1, Matrix* m2);
 Matrix addMatrix(Matrix* m1, Matrix* m2);
 Matrix coeffMatrix(Matrix* m1, double coeff);
 Matrix transMatrix(Matrix* m);
+Matrix absMatrix(Matrix* m);
 void printMatrix(Matrix m);
 void freeMatrix(Matrix* m);
 

@@ -60,6 +60,7 @@ Matrix* costPrime(FFNet* net, Matrix* output, Matrix* results) {
 	deltaOut = coeffMatrix(&deltaOut,-1);
 	Matrix activationOut=sigPrime2Mat((&net->layersActivation[net->layersNb-2]));
 	deltaOut = ewMultMatrix(&deltaOut,&activationOut);
+	printf("\n");
 	//Output layer gradient matrix	
 	Matrix activityLast = net->layersActivity[net->layersNb-2];
 	activityLast = transMatrix(&activityLast);

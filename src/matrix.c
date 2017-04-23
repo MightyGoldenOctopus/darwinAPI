@@ -18,6 +18,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "matrix.h"
 
 Matrix createMatrix(double* data, int nbL, int nbC) {
