@@ -87,7 +87,7 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 		Matrix* gradients = costPrime(net,&output,results);
 		//Updating the weights
 		int j = 0;
-		for(int k = net->layersNb-1; k > 0; --k, ++j){
+		for(int k = net->layersNb-2; k >= 0; --k, ++j){
 			Matrix updateMat= coeffMatrix(&gradients[j],-lr);
 			net->layersWeights[k] = addMatrix(&net->layersWeights[k],&updateMat);
 			printMatrix(gradients[j]);
