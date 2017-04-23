@@ -97,6 +97,12 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 	}
 }
 
+void freeFFNet(FFNet* net) {
+	free(net->layersWeights);
+	free(net->layersActivity);
+	free(net->layersActivation);
+}
+
 //Test zone
 int main() {
 	int layers[3] = {2,3,1};
@@ -119,5 +125,6 @@ int main() {
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);
 	printf("\nNew Overall Cost: %f\n", cost(output, resultsMat));
+	freeFFNet(&network);
 	return 0;
 }
