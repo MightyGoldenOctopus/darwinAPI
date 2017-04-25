@@ -90,6 +90,7 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 		for(int k = net->layersNb-2; k >= 0; --k, ++j){
 			Matrix updateMat = coeffMatrix(&gradients[j],-lr);
 			net->layersWeights[k] = addMatrix(&net->layersWeights[k],&updateMat);
+			freeMatrix(&gradients[j]);
 		}
 	}
 }
@@ -123,6 +124,6 @@ int main() {
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);
 	printf("\nNew Overall Cost: %f\n", cost(output, resultsMat));
-	freeFFNet(&network);
+	//freeFFNet(&network);
 	return 0;
 }
