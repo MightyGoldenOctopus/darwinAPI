@@ -98,11 +98,13 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 void freeFFNet(FFNet* net) {
 	int n = net->layersNb;
 	for(int i = 0; i < n-1; ++i) {
+		printf("i = %d\n", i);
 		freeMatrix(&(net->layersWeights[i]));
 		freeMatrix(&(net->layersActivation[i]));
 	}
 	for(int j = 0; j < n; ++j) {
-		freeMatrix(&(net->layersActivity[j]));
+		printf("j = %d\n", j);
+		//freeMatrix(&(net->layersActivity[j]));
 	}
 }
 
@@ -129,6 +131,6 @@ int main() {
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);
 	printf("\nNew Overall Cost: %f\n", cost(output, resultsMat));
-	//freeFFNet(&network);
+	freeFFNet(&network);
 	return 0;
 }
