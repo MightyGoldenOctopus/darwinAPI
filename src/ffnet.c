@@ -115,7 +115,7 @@ void freeFFNet(FFNet* net) {
 
 //Test zone
 int main() {
-	int layers[3] = {2,3,1};
+	int layers[5] = {2,3,1};
 	FFNet network = createFFNet(layers, 3);
 	double inputs[8] = {0,0,0,1,1,0,1,1};
 	Matrix inputsMat = createMatrix(inputs, 4, 2);
