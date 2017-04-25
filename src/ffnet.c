@@ -96,9 +96,14 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 }
 
 void freeFFNet(FFNet* net) {
-	free(net->layersWeights);
-	free(net->layersActivity);
-	free(net->layersActivation);
+	int n = net->layersNb;
+	for(int i = 0; i < n-1; ++i) {
+		freeMatrix(&(net->layersWeights[i]));
+		freeMatrix(&(net->layersActivation[i]));
+	}
+	for(int j = 0; j < n; ++j) {
+		freeMatrix(&(net->layersActivity[j]));
+	}
 }
 
 //Test zone
