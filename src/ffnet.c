@@ -90,7 +90,14 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 		for(int k = net->layersNb-2; k >= 0; --k, ++j){
 			Matrix updateMat = coeffMatrix(&gradients[j],-lr);
 			net->layersWeights[k] = addMatrix(&net->layersWeights[k],&updateMat);
+			//Freeing used matrix
+			freeMatrix(&updateMat);
 			freeMatrix(&gradients[j]);
+			freeMatrix(&(net->layersActivation[k]));
+		}
+		freeMatrix(&output);
+		for(int l = net->layersNb-2; l > 0; --l){
+			freeMatrix(&(net->layersActivity[l]));
 		}
 	}
 }
@@ -98,13 +105,11 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 void freeFFNet(FFNet* net) {
 	int n = net->layersNb;
 	for(int i = 0; i < n-1; ++i) {
-		printf("i = %d\n", i);
 		freeMatrix(&(net->layersWeights[i]));
 		freeMatrix(&(net->layersActivation[i]));
 	}
-	for(int j = 0; j < n; ++j) {
-		printf("j = %d\n", j);
-		//freeMatrix(&(net->layersActivity[j]));
+	for(int j = 1; j < n; ++j) {
+		freeMatrix(&(net->layersActivity[j]));
 	}
 }
 
