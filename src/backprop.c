@@ -38,13 +38,27 @@ double cost(Matrix output, Matrix results) {
 }
 
 Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
-/* To be used with layer index comprised between first h layer
- * and last hidden layer.
- */
+	//Computing the dJ/dW(n) matrix for a hidden layer n:
+	/*First we compute the layer's delta in function of
+	 *the next layer's delta, the transpose matrix of the
+	 *layer's weights and the layer's activation matrix 
+	 *where we applied a sigmoid prime function.
+	 */
 	Matrix weights = transMatrix(&(net->layersWeights[layer]));
 	Matrix activation = sigPrime2Mat(&(net->layersActivation[layer-1]));
 	Matrix delta = multMatrix(deltaSup,&weights);
+	/*So the delta is the element-wise product between the
+	 *matrix product of the next-layer's delta and the transpose
+	 *of the current layer's weights matrix with the activation
+	 *matrix where we applied sigmoid prime.
+	 */
 	delta = ewMultMatrix(&delta,&activation);
+	/*Thus the dJ/dW wich define the partial derivatives matrix
+	 *of the cost function in function of the current layer's
+	 *weights matrix is defined by the matrix multiplication of
+	 *the layer's delta with the transpose of the precedent layer's 
+	 *matrix.
+	 */
 	Matrix activity = transMatrix(&(net->layersActivity[layer-1]));
 	Matrix dJdW = multMatrix(&activity,&delta);
 	*deltaSup = delta;
