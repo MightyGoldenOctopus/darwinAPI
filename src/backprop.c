@@ -57,7 +57,7 @@ Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
 	 *of the cost function in function of the current layer's
 	 *weights matrix is defined by the matrix multiplication of
 	 *the layer's delta with the transpose of the precedent layer's 
-	 *matrix.
+	 *activity matrix.
 	 */
 	Matrix activity = transMatrix(&(net->layersActivity[layer-1]));
 	Matrix dJdW = multMatrix(&activity,&delta);
