@@ -61,14 +61,14 @@ Matrix weightsMat(FFNet* net, int layer) {
 Matrix __forwardProp(FFNet* net,int layer,Matrix inputs,Matrix* activLayer){
 	//Creating layer activation matrix
 	*activLayer = multMatrix(&inputs, &net->layersWeights[layer-1]);
-	//Return activity matrix (applied sigmoid)
+	//Returns layer activity matrix
 	return sig2Mat(activLayer);
 }
 
 Matrix forwardPropagation(FFNet* net, Matrix inputs) {
 	net->layersActivity[0] = inputs;
 	for(int i = 1; i < net->layersNb; i++) {
-		inputs= __forwardProp(net,i,inputs,&net->layersActivation[i-1]);
+		inputs = __forwardProp(net,i,inputs,&net->layersActivation[i-1]);
 		net->layersActivity[i] = inputs;
 	}
 	return inputs;
