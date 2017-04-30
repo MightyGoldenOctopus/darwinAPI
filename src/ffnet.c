@@ -110,6 +110,10 @@ void freeFFNet(FFNet* net) {
 	for(int j = 1; j < n; ++j) {
 		freeMatrix(&(net->layersActivity[j]));
 	}
+	free(net->layersActivity);
+	free(net->layersActivation);
+	free(net->layersWeights);
+	net = NULL;
 }
 
 //Test zone

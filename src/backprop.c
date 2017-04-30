@@ -61,6 +61,7 @@ Matrix hiddenGradient(FFNet* net, int layer, Matrix* deltaSup) {
 	 */
 	Matrix activity = transMatrix(&(net->layersActivity[layer-1]));
 	Matrix dJdW = multMatrix(&activity,&delta);
+	freeMatrix(deltaSup);
 	*deltaSup = delta;
 	//Free used matrix
 	freeMatrix(&weights);
