@@ -22,7 +22,6 @@
 typedef struct {
 	int nbL;
 	int nbC;
-	int free;
 	double* data;
 } Matrix;
 

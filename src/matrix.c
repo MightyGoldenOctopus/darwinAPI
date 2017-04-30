@@ -26,7 +26,6 @@ Matrix createMatrix(double* data, int nbL, int nbC) {
 	init.nbL = nbL;
 	init.nbC = nbC;
 	init.data = data;
-	init.free = 0;
 	return init;
 }
 
@@ -113,8 +112,6 @@ void printMatrix(Matrix m) {
 }
 
 void freeMatrix(Matrix* m) {
-	if(m->free ==0) {
-		free(m->data);
-		m->free =1;
-	}
+	free(m->data);
+	m = NULL;
 }
