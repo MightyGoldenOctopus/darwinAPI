@@ -93,6 +93,7 @@ void trainFFNet(FFNet* net, int epoch, Matrix* inputs, Matrix* results){
 			freeMatrix(&gradients[j]);
 			freeMatrix(&(net->layersActivation[k]));
 		}
+		free(gradients);
 		freeMatrix(&output);
 		for(int l = net->layersNb-2; l > 0; --l){
 			freeMatrix(&(net->layersActivity[l]));
