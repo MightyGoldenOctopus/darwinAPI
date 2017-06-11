@@ -118,6 +118,7 @@ void freeFFNet(FFNet* net) {
 }
 
 //TEST ZONE
+/*
 int main() {
 	int layers[3] = {2,3,1};
 	FFNet network = createFFNet(layers, 3);
@@ -153,3 +154,4 @@ int main() {
 	freeFFNet(&network);
 	return 0;
 }
+*/
