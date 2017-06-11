@@ -29,7 +29,7 @@ Let's make quickly a 2-3-1 FFN capable of learning a XOR.
 #include "ffnet.h"
 
 int main(){
-int layers[3] = {2,3,1};
+	int layers[3] = {2,3,1};
     FFNet = myFFNet(layers, 3);
     
     double inputs[8] = {0, 0, 0, 1, 1, 0, 1, 1};
