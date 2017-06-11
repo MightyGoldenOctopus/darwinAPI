@@ -13,6 +13,7 @@ Here's a simple example how to make a 3x2 matrix:
 double data[4] = {1, 2, 3, 4, 5, 6};
 Matrix myMatrix = createMatrix(&data, 3, 2);
 ```
+Note that darwinAPI is a full-matrix FFN implementation, all the elements that you are manipulating are matrix, for instance the input matrix n x p will correspond to a data set of n inputs of p elements. Of course you can input as many elements as you want since the only requirement is that the number of column match the size of the input layer. 
 
 ## FFN Functions:
 -Create a new FFN: `FFNet createFFN(int layersSizes[], layersNb)`  
@@ -23,6 +24,7 @@ Matrix myMatrix = createMatrix(&data, 3, 2);
 -Load a FFN from a file `FFNet loadFFNet(char* myfilename)`  
 
 ## Quick Start (demo with a XOR):
+Let's make quickly a 2-3-1 FFN capable of learning a XOR.
 ```
 #include "ffnet.h"
 
