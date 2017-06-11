@@ -19,6 +19,7 @@
 #include "activ.h"
 #include "ffnet.h"
 #include "backprop.h"
+#include "serialize.h"
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
@@ -116,7 +117,7 @@ void freeFFNet(FFNet* net) {
 	net = NULL;
 }
 
-//Test zone
+//TEST ZONE
 int main() {
 	int layers[3] = {2,3,1};
 	FFNet network = createFFNet(layers, 3);
@@ -139,6 +140,15 @@ int main() {
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);
 	printf("\nNew Overall Cost: %f\n", cost(output, resultsMat));
+	printf("\nSAVING NETWORK...\n");
+	serialFFNet(&network, "test_save");
+	freeFFNet(&network);
+	
+	printf("\nLOADING NETWORK...\n");
+	network = loadFFNet("test_save");
+	printf("\nOutput of the loaded FFN with same inputs:\n");
+	output = forwardPropagation(&network, inputsMat);
+	printMatrix(output);
 	freeFFNet(&network);
 	return 0;
 }
