@@ -68,7 +68,7 @@ FFNet loadFFNet(char* savename){
 	init.layersWeights = malloc((init.layersNb-1)*sizeof(Matrix));
 	for(int i = 0; i < init.layersNb - 1; i++){
 		double* data = malloc(init.layersSize[i]*init.layersSize[i+1]*sizeof(double));
-		for(int j = 0; j < i*(i+1); j++){
+		for(int j = 0; j < init.layersSize[i]*(init.layersSize[i+1]); j++){
 			fscanf(f, "%lf", &weight);
 			data[j] = weight;
 		}

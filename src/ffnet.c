@@ -140,6 +140,7 @@ int main() {
 	printf("\nNew Results Matrix:\n");
 	printMatrix(output);
 	printf("\nNew Overall Cost: %f\n", cost(output, resultsMat));
+	printMatrix(network.layersWeights[0]);
 	printf("\nSAVING NETWORK...\n");
 	serialFFNet(&network, "test_save");
 	freeFFNet(&network);
