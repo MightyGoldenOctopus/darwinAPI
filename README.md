@@ -1,4 +1,4 @@
-# darwinAPI
+# darwinAPI (This project is being completelly reforged, the doc and the code operational status are not guarranteed)
 
 ## NOTE:
 This API is a quite unprofessional noob-friendly FFN tool. As the result of my first C project and also my first implementation of a neural network, it can be quite messy and don't reflect a professional code  and architecture quality.  
