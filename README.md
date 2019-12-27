@@ -27,7 +27,16 @@ Note that darwinAPI is a full-matrix FFN implementation, all the elements that y
 ## Quick Start (demo with a XOR):
 Let's make quickly a 2-3-1 FFN capable of learning a XOR.
 ```
+#include "matrix.h"
+#include "activ.h"
 #include "ffnet.h"
+#include "backprop.h"
+#include "serialize.h"
+#include "ffnet.h"
+#include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
+#include <math.h>
 
 int main(){
     int layers[3] = {2,3,1};
