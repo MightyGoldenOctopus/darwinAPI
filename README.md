@@ -1,11 +1,8 @@
 # darwinAPI (Not currently in active development)
 
 ## NOTE:
-WELL THIS DOC IS NOT ACCURATE AND CONTAIN SEVERAL ERRORS.  
 This API is a quite unprofessional noob-friendly FFN tool. As the result of my first C project and also my first implementation of a neural network, it can be quite messy and don't reflect a professional code  and architecture quality.  
 This implementation use a full-matrix approach of the FFN using sigmoid activation functions and vanilla gradient descent without any other optimization.
-If you are amateur enought to dare using this API, just make this include: `#include "ffnet.h"`
-
 
 ## API's Matrix System:
 darwinAPI use it's own built-in matrix library using a 1-D array for basics optimization purpose.  
